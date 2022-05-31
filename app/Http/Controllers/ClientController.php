@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ClientRepository;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+    protected $clientRepository;
+
+    public function __construct(ClientRepository $clientRepository){
+       // $this->middleware('auth');
+        $this->clientRepository =$clientRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +21,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        $clients = $this->clientRepository->getAll();
+        return view('client.index',compact('clients'));
     }
 
     /**
@@ -23,7 +32,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('client.add');
     }
 
     /**
@@ -34,7 +43,9 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $clients = $this->clientRepository->store($request->all());
+        return redirect('client');
+
     }
 
     /**
@@ -45,7 +56,8 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        $client = $this->clientRepository->getById($id);
+        return view('client.show',compact('client'));
     }
 
     /**
@@ -56,7 +68,8 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        //
+        $client = $this->clientRepository->getById($id);
+        return view('client.edit',compact('client'));
     }
 
     /**
@@ -68,7 +81,8 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->clientRepository->update($id, $request->all());
+        return redirect('client');
     }
 
     /**
@@ -79,6 +93,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->clientRepository->destroy($id);
+        return redirect('client');
     }
 }

@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', '| produit')
+@section('title', '| entree')
 
 
 @section('content')
@@ -9,11 +9,12 @@
                         <div class="container-fluid">
                             <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-info">Tableau de bord</h1>
+                                <h1 class="m-0 text-info">GESTION DES ENTREES</h1>
                             </div><!-- /.col -->
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ route('home') }}" role="button" class="btn btn-success">ACCUEIL</a></li>
+                                <li class="breadcrumb-item active"><a href="{{ route('entree.create') }}" role="button" class="btn btn-success">ENREGISTRER EUN ENTREE</a></li>
                                 </ol>
                             </div><!-- /.col -->
                             </div><!-- /.row -->
@@ -30,29 +31,41 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-@foreach ($depots as $depot )
+
 <div class="col-12">
     <div class="card border-danger border-0">
-        <div class="card-header bg-success text-center"><h4>Depot de {{ $depot->nomd }}</h4></div>
+        <div class="card-header bg-success text-center">LISTE D'ENREGISTREMENT DES ENTREES</div>
             <div class="card-body">
                 <table id="example1" class="table table-bordered table-responsive-md table-striped text-center">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nom du produit</th>
-                            <th>Stock</th>
+                            <th>Date</th>
+                            <th>Fournisseur</th>
+                            <th>Produit</th>
+                            <th>Quantite</th>
+                            <th>Montant</th>
+                            <th>Depot</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($depot->depotProduits as $depotProduit)
+                    @foreach ($entrees as $entree)
                         <tr>
-                            <td>{{ $depotProduit->produit->id }}</td>
-                            <td>{{ $depotProduit->produit->nomp }}</td>
-                            <td>{{ $depotProduit->stock }}</td>
+                            <td>{{ $entree->id }}</td>
+                            <td>{{ $entree->created_at }}</td>
+                            <td>{{ $entree->fournisseur->nomf }}</td>
+                            <td>{{ $entree->produit->nomp }}</td>
+                            <td>{{ $entree->quantite }}</td>
+                            <td>{{ $entree->quantite  * $entree->prixu }}</td>
+                            <td>{{ $entree->depot->nomd }}</td>
+
                              <td>
-                                {{--  <a href="{{ route('produit.edit', $depotProduit->produit->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>  --}}
-                                <a href="{{ route('detail.produit', $depotProduit->produit->id) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('entree.edit', $entree->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>
+                                {!! Form::open(['method' => 'DELETE', 'route'=>['entree.destroy', $entree->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
+                                <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                {!! Form::close() !!}
+
 
 
                             </td>
@@ -69,7 +82,6 @@
 
         </div>
     </div>
-    @endforeach
 </div>
 
 @endsection

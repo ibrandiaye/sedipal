@@ -9,4 +9,8 @@ class DepotRepository extends RessourceRepository{
     {
         $this->model = $depot;
     }
+    public function getDepotWithRelation(){
+        return Depot::with(['depotProduits','depotProduits.produit'])
+        ->get();
+    }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <title>Enda ECOPOP</title>
+     <title>SEDIPAL</title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -118,72 +118,48 @@
                         </a>
 
                     </li>
-                   {{--   <li class="nav-item">
+                   <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-map-marked-alt"></i>
+                            <i class="fas fa-users"></i>
 
                             <p>
-                                Sous Groupe
+                                Fourninseur
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('sous-groupe.create') }}" class="nav-link">
+                                <a href="{{ route('fournisseur.create') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Ajouter</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('sous-groupe.index') }}" class="nav-link">
+                                <a href="{{ route('fournisseur.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>lister</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                     <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-map-marked-alt"></i>
+                            <i class="fas fa-foods"></i>
 
                             <p>
-                                Parametre
+                                Produit
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('parametre.create') }}" class="nav-link">
+                                <a href="{{ route('produit.create') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Ajouter</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('parametre.index') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>lister</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="fas fa-user"></i>
-
-                            <p>
-                                Patient
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('patient.create') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Ajouter</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('patient.index') }}" class="nav-link">
+                                <a href="{{ route('produit.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>lister</p>
                                 </a>
@@ -195,19 +171,67 @@
                             <i class="fas fa-user"></i>
 
                             <p>
-                                Machine
+                                Depot
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('machine.create') }}" class="nav-link">
+                                <a href="{{ route('depot.create') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Ajouter</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('machine.index') }}" class="nav-link">
+                                <a href="{{ route('depot.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>lister</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                     <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="fas fa-user"></i>
+
+                            <p>
+                                Entree
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('entree.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ajouter</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('entree.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>lister</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="fas fa-users"></i>
+
+                            <p>
+                                Client
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('client.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ajouter</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('client.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>lister</p>
                                 </a>
@@ -219,49 +243,25 @@
                             <i class="fas fa-user"></i>
 
                             <p>
-                                Docteur
+                                Sortie
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('docteur.create') }}" class="nav-link">
+                                <a href="{{ route('sortie.create') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Ajouter</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('docteur.index') }}" class="nav-link">
+                                <a href="{{ route('sortie.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>lister</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="fas fa-user"></i>
-
-                            <p>
-                                Resultat
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('resultat.create') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Ajouter</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('resultat.index') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>lister</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>  --}}
 
                 </ul>
             </nav>

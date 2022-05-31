@@ -2,10 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\DepotProduit;
+use App\Repositories\DepotProduitRepository;
+use App\Repositories\DepotRepository;
+use App\Repositories\EntreeRepository;
+use App\Repositories\FournisseurRepository;
+use App\Repositories\ProduitRepository;
 use Illuminate\Http\Request;
 
 class EntreeController extends Controller
 {
+
+    protected $entreeRepository;
+    protected $fournisseurRepository;
+    protected $produitRepository;
+    protected $depotRepository;
+    protected $depotProduitRepository;
+
+    public function __construct(EntreeRepository $entreeRepository, FournisseurRepository $fournisseurRepository,
+    ProduitRepository $produitRepository, DepotRepository $depotRepository,
+    DepotProduitRepository $depotProduitRepository){
+       // $this->middleware('auth');
+        $this->entreeRepository =$entreeRepository;
+        $this->fournisseurRepository = $fournisseurRepository;
+        $this->produitRepository = $produitRepository;
+        $this->depotRepository = $depotRepository;
+        $this->depotProduitRepository = $depotProduitRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +37,8 @@ class EntreeController extends Controller
      */
     public function index()
     {
-        //
+        $entrees = $this->entreeRepository->getAll();
+        return view('entree.index',compact('entrees'));
     }
 
     /**
@@ -23,7 +48,10 @@ class EntreeController extends Controller
      */
     public function create()
     {
-        //
+        $produits = $this->produitRepository->getAll();
+        $fournisseurs = $this->fournisseurRepository->getAll();
+        $depots = $this->depotRepository->getAll();
+        return view('entree.add',compact('produits','fournisseurs','depots'));
     }
 
     /**
@@ -34,7 +62,13 @@ class EntreeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $entree = $this->entreeRepository->store($request->all());
+        $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($request['produit_id'],$request['depot_id']);
+        $depotProduit->stock = $request['quantite'] + $depotProduit->stock;
+       // $depotProduit->save();
+        DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);
+        return redirect('entree');
+
     }
 
     /**
@@ -45,7 +79,8 @@ class EntreeController extends Controller
      */
     public function show($id)
     {
-        //
+        $entree = $this->entreeRepository->getById($id);
+        return view('entree.show',compact('entree'));
     }
 
     /**
@@ -56,7 +91,11 @@ class EntreeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $entree = $this->entreeRepository->getById($id);
+        $produits = $this->produitRepository->getAll();
+        $fournisseurs = $this->fournisseurRepository->getAll();
+        $depots = $this->depotRepository->getAll();
+        return view('entree.edit',compact('entree','produits','fournisseurs','depots'));
     }
 
     /**
@@ -68,7 +107,8 @@ class EntreeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->entreeRepository->update($id, $request->all());
+        return redirect('entree');
     }
 
     /**
@@ -79,6 +119,7 @@ class EntreeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->entreeRepository->destroy($id);
+        return redirect('entree');
     }
 }

@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\FournisseurRepository;
 use Illuminate\Http\Request;
 
 class FournisseurController extends Controller
 {
+
+    protected $fournisseurRepository;
+
+    public function __construct(FournisseurRepository $fournisseurRepository){
+       // $this->middleware('auth');
+        $this->fournisseurRepository =$fournisseurRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +22,8 @@ class FournisseurController extends Controller
      */
     public function index()
     {
-        //
+        $fournisseurs = $this->fournisseurRepository->getAll();
+        return view('fournisseur.index',compact('fournisseurs'));
     }
 
     /**
@@ -23,7 +33,7 @@ class FournisseurController extends Controller
      */
     public function create()
     {
-        //
+        return view('fournisseur.add');
     }
 
     /**
@@ -34,7 +44,9 @@ class FournisseurController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fournisseurs = $this->fournisseurRepository->store($request->all());
+        return redirect('fournisseur');
+
     }
 
     /**
@@ -45,7 +57,8 @@ class FournisseurController extends Controller
      */
     public function show($id)
     {
-        //
+        $fournisseur = $this->fournisseurRepository->getById($id);
+        return view('fournisseur.show',compact('fournisseur'));
     }
 
     /**
@@ -56,7 +69,8 @@ class FournisseurController extends Controller
      */
     public function edit($id)
     {
-        //
+        $fournisseur = $this->fournisseurRepository->getById($id);
+        return view('fournisseur.edit',compact('fournisseur'));
     }
 
     /**
@@ -68,7 +82,8 @@ class FournisseurController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->fournisseurRepository->update($id, $request->all());
+        return redirect('fournisseur');
     }
 
     /**
@@ -79,6 +94,7 @@ class FournisseurController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->fournisseurRepository->destroy($id);
+        return redirect('fournisseur');
     }
 }
