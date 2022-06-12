@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Depot;
+use Illuminate\Support\Facades\DB;
 
 class DepotRepository extends RessourceRepository{
     public function __construct(Depot $depot)
@@ -12,5 +13,18 @@ class DepotRepository extends RessourceRepository{
     public function getDepotWithRelation(){
         return Depot::with(['depotProduits','depotProduits.produit'])
         ->get();
+    }
+    public function getStockByDepots(){
+        return DB::table('depots')
+        ->join('depot_produits','depots.id','=','depot_produits.depot_id')
+        ->select('depots.nomd', 'depots.id as id',DB::raw('sum(depot_produits.stock) as stock'))
+        ->groupBy('depots.nomd','depots.id')
+        ->get();
+    }
+    public function getByDepot($id){
+        return Depot::with(['depotProduits','depotProduits.produit','entrees','sorties',
+        'entrees.produit','sorties.produit'])
+        ->where('id',$id)
+        ->first();
     }
 }

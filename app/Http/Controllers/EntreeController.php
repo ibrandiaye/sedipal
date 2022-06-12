@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DepotProduit;
+use App\Produit;
 use App\Repositories\DepotProduitRepository;
 use App\Repositories\DepotRepository;
 use App\Repositories\EntreeRepository;
@@ -22,7 +23,7 @@ class EntreeController extends Controller
     public function __construct(EntreeRepository $entreeRepository, FournisseurRepository $fournisseurRepository,
     ProduitRepository $produitRepository, DepotRepository $depotRepository,
     DepotProduitRepository $depotProduitRepository){
-       // $this->middleware('auth');
+        // $this->middleware(['auth']);
         $this->entreeRepository =$entreeRepository;
         $this->fournisseurRepository = $fournisseurRepository;
         $this->produitRepository = $produitRepository;
@@ -65,8 +66,8 @@ class EntreeController extends Controller
         $entree = $this->entreeRepository->store($request->all());
         $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($request['produit_id'],$request['depot_id']);
         $depotProduit->stock = $request['quantite'] + $depotProduit->stock;
-       // $depotProduit->save();
         DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);
+        Produit::find($depotProduit->produit_id)->update(['prixu'=>$entree->prixu]);
         return redirect('entree');
 
     }

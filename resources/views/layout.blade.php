@@ -23,9 +23,9 @@
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{!! asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') !!}">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="{!! asset('assets/plugins/daterangepicker/daterangepicker.css') !!}">
+   {{--   <link rel="stylesheet" href="{!! asset('assets/plugins/daterangepicker/daterangepicker.css') !!}">
     <!-- summernote -->
-    <link rel="stylesheet" href="{!! asset('assets/plugins/summernote/summernote-bs4.css') !!}">
+    <link rel="stylesheet" href="{!! asset('assets/plugins/summernote/summernote-bs4.css') !!}">  --}}
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
@@ -85,9 +85,8 @@
     <aside class="main-sidebar elevation-4 sidebar-light-lime">
         <!-- Brand Logo -->
         <a href="#" class="brand-link ">
-            <img src="{{ asset('assets/dist/img/logo.png') }}" alt="AdminLTE Logo" class="brand-image  elevation-3"
-                 style="opacity: .8">
-            <span class="brand-text font-weight-light"><br></span>
+
+            <span class="brand-text font-weight-light">SEDIPAL</span>
         </a>
 
         <!-- Sidebar -->
@@ -99,7 +98,7 @@
                 </div>
                 <div class="info">
 
-                    <a href="#" class="d-block"> {{-- Auth::user()->name --}}</a>
+                    <a href="#" class="d-block"> {{ Auth::user()->name }}</a>
 
                 </div>
             </div>
@@ -144,7 +143,7 @@
                     </li>
                      <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-foods"></i>
+                            <i class="fas fa-database"></i>
 
                             <p>
                                 Produit
@@ -168,7 +167,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-archive"></i>
 
                             <p>
                                 Depot
@@ -192,7 +191,7 @@
                     </li>
                      <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-upload"></i>
 
                             <p>
                                 Entree
@@ -240,7 +239,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-share"></i>
 
                             <p>
                                 Sortie
@@ -262,7 +261,32 @@
                             </li>
                         </ul>
                     </li>
+                    @if(Auth::user()->role=='administrateur')
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="fas fa-users"></i>
 
+                            <p>
+                            Utilisateur
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('register') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ajouter</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>lister</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    @endif
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -275,7 +299,7 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
         <!-- <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">SDIS</a>.</strong> -->
-        <strong>Copyright &copy; 2019-2020 | <a href="">SDIS</a> | </strong>
+        <strong>Copyright &copy; 2022 | <a href="">SEDIPAL</a> | </strong>
 
         Tous droits réservés.
         <div class="float-right d-none d-sm-inline-block">
@@ -337,7 +361,7 @@
 <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
 <script>
     $(function () {
-        $("#example1").DataTable({
+       {{--   $("#example1").DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
             },
@@ -355,19 +379,25 @@
                 'csvHtml5',
                 'pdfHtml5'
             ]
-        });
-        $('#example2').DataTable({
+        });  --}}
+        $('.table').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
             },
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": false,
-            "info": false,
+           "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+           "info": false,
             "autoWidth": false,
             "scrollX": true,
-
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
         });
     });
 </script>

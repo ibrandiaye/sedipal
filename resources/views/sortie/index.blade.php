@@ -46,6 +46,7 @@
                             <th>Quantite</th>
                             <th>Montant</th>
                             <th>Depot</th>
+                            @if(Auth::user()->role=='administrateur')<th>Ecart</th>@endif
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -53,13 +54,13 @@
                     @foreach ($sorties as $sortie)
                         <tr>
                             <td>{{ $sortie->id }}</td>
-                            <td>{{ $sortie->created_at }}</td>
+                            <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:m') }}</td>
                             <td>{{ $sortie->client->nomc }}</td>
                             <td>{{ $sortie->produit->nomp }}</td>
                             <td>{{ $sortie->quantite }}</td>
                             <td>{{ $sortie->quantite  * $sortie->prixv }}</td>
                             <td>{{ $sortie->depot->nomd }}</td>
-
+                            @if(Auth::user()->role=='administrateur')<td>{{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}</td>@endif
                              <td>
                                 <a href="{{ route('sortie.edit', $sortie->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>
                                 {!! Form::open(['method' => 'DELETE', 'route'=>['sortie.destroy', $sortie->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}

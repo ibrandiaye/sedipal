@@ -21,7 +21,7 @@ class SortieController extends Controller
     public function __construct(SortieRepository $sortieRepository, ClientRepository $clientRepository,
     ProduitRepository $produitRepository, DepotRepository $depotRepository,
     DepotProduitRepository $depotProduitRepository){
-       // $this->middleware('auth');
+        // $this->middleware(['auth']);
         $this->sortieRepository =$sortieRepository;
         $this->clientRepository = $clientRepository;
         $this->produitRepository = $produitRepository;

@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', '| produit')
+@section('title', '| Utilisateur')
 
 
 @section('content')
@@ -9,32 +9,17 @@
                         <div class="container-fluid">
                             <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-info">Tableau de bord</h1>
+                                <h1 class="m-0 text-info">GESTION DES UTILISATEURS</h1>
                             </div><!-- /.col -->
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ route('home') }}" role="button" class="btn btn-success">ACCUEIL</a></li>
+                                <li class="breadcrumb-item active"><a href="{{ route('register') }}" role="button" class="btn btn-success">ENREGISTRER UN UTILISATEUR</a></li>
                                 </ol>
                             </div><!-- /.col -->
                             </div><!-- /.row -->
                         </div><!-- /.container-fluid -->
             </div>
-            <div class="row">
-@foreach ($stocks as $stock)
-<div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-      <div class="info-box-content">
-        <a href="{{ route('un.depot', ['id'=>$stock->id]) }}"><span class="info-box-text">{{  $stock->nomd}}</span></a>
-        <span class="info-box-number">{{ $stock->stock }} articles</span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-@endforeach
-</div>
 
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
@@ -46,29 +31,34 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-@foreach ($depots as $depot )
+
 <div class="col-12">
     <div class="card border-danger border-0">
-        <div class="card-header bg-success text-center"><h4>Depot de {{ $depot->nomd }}</h4></div>
+        <div class="card-header bg-success text-center">LISTE D'ENREGISTREMENT DES UTILISATEURS</div>
             <div class="card-body">
                 <table id="example1" class="table table-bordered table-responsive-md table-striped text-center">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nom du produit</th>
-                            <th>Stock</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Role</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($depot->depotProduits as $depotProduit)
+                    @foreach ($users as $user)
                         <tr>
-                            <td>{{ $depotProduit->produit->id }}</td>
-                            <td>{{ $depotProduit->produit->nomp }}</td>
-                            <td>{{ $depotProduit->stock }}</td>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->role }}</td>
                              <td>
-                                {{--  <a href="{{ route('produit.edit', $depotProduit->produit->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>  --}}
-                                <a href="{{ route('detail.produit', $depotProduit->produit->id) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('user.edit', $user->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>
+                                {!! Form::open(['method' => 'DELETE', 'route'=>['user.destroy', $user->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
+                                <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                {!! Form::close() !!}
+
 
 
                             </td>
@@ -85,7 +75,6 @@
 
         </div>
     </div>
-    @endforeach
 </div>
 
 @endsection

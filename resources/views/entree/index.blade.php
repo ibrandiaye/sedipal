@@ -53,7 +53,7 @@
                     @foreach ($entrees as $entree)
                         <tr>
                             <td>{{ $entree->id }}</td>
-                            <td>{{ $entree->created_at }}</td>
+                           <td> {{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:m') }}</td>
                             <td>{{ $entree->fournisseur->nomf }}</td>
                             <td>{{ $entree->produit->nomp }}</td>
                             <td>{{ $entree->quantite }}</td>

@@ -21,4 +21,5 @@ class DepotProduitRepository extends RessourceRepository{
         ->where('produit_id',$produit_id)
         ->get();
     }
+
 }

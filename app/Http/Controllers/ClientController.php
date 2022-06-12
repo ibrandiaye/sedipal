@@ -10,7 +10,7 @@ class ClientController extends Controller
     protected $clientRepository;
 
     public function __construct(ClientRepository $clientRepository){
-       // $this->middleware('auth');
+        $this->middleware('auth');
         $this->clientRepository =$clientRepository;
     }
 

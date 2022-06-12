@@ -9,4 +9,18 @@ class EntreeRepository extends RessourceRepository{
     {
         $this->model = $entree;
     }
+
+    public function getByProduitId($produit_id){
+        return Entree::with(['produit','depot','fournisseur'])
+        ->where('produit_id',$produit_id)
+        ->orderBy('id','desc')
+        ->get();
+    }
+    public function getByProduitIdBetweenToDate($produit_id,$debut,$fin){
+        return Entree::with(['produit','depot','fournisseur'])
+        ->where('produit_id',$produit_id)
+        ->whereBetween('created_at',[$debut,$fin])
+        ->orderBy('id','desc')
+        ->get();
+    }
 }

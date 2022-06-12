@@ -14,12 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/','HomeController@home')->name('home');
-Route::get('/detail/produit/{produit_id}','HomeController@getProduitDepotById')->name('detail.produit');
+Route::get('/','DashboardController@home')->name('home');
+Route::get('/detail/produit/{produit_id}','DashboardController@getProduitDepotById')->name('detail.produit');
+Route::get('/undepot/{id}','DashboardController@getByDepot')->name('un.depot');
 Route::resource('fournisseur',FournisseurController::class);
 Route::resource('produit',ProduitController::class);
 Route::resource('depot',DepotController::class);
 Route::resource('entree',EntreeController::class);
 Route::resource('client',ClientController::class);
 Route::resource('sortie',SortieController::class);
+
+Route::middleware(['auth', 'admin'])->group(function(){
+    Route::get('/user/{user}/edit', 'Auth\RegisterController@edit')->name('user.edit');
+    Route::patch('/user/{user}', 'Auth\RegisterController@update')->name('user.update');
+    Route::get('/user', 'Auth\RegisterController@index')->name('user.index');
+    Route::delete('/user/{user}', 'Auth\RegisterController@delete')->name('user.destroy');
+});
+
+Auth::routes();
+Route::post('/stock/produit','DashboardController@getProduitDepotByIdBetweenToDate')->name('detail.produit.between.to.date');
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
 

@@ -11,7 +11,7 @@ class FournisseurController extends Controller
     protected $fournisseurRepository;
 
     public function __construct(FournisseurRepository $fournisseurRepository){
-       // $this->middleware('auth');
+        // $this->middleware(['auth']);
         $this->fournisseurRepository =$fournisseurRepository;
     }
 
