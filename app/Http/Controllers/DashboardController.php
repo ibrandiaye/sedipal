@@ -53,8 +53,9 @@ class DashboardController extends Controller
     public function home(){
         $depots = $this->depotRepository->getDepotWithRelation();
         $stocks = $this->depotRepository->getStockByDepots();
+        $produits = $this->produitRepository->getAll();
         //dd($stocks);
-        return view('welcome',compact('depots','stocks'));
+        return view('welcome',compact('depots','stocks','produits'));
     }
     public function getProduitDepotById($produit_id){
         $depotProduits = $this->depotProduitRepository->getDepotProduitByProduit($produit_id);
@@ -74,5 +75,12 @@ class DashboardController extends Controller
     public function  getByDepot($id){
         $depot = $this->depotRepository->getByDepot($id);
         return view('depot.show',compact('depot'));
+    }
+    public function chercherProduit(Request $request){
+        $depotProduits = $this->depotProduitRepository->getDepotProduitByProduit($request['produit_id']);
+        $produit = $this->produitRepository->getById($request['produit_id']);
+        $entrees = $this->entreeRepository->getByProduitId($request['produit_id']);
+        $sorties = $this->sortieRepository->getByProduitId($request['produit_id']);
+        return view('show',compact('depotProduits','produit','sorties','entrees'));
     }
 }

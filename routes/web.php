@@ -23,7 +23,9 @@ Route::resource('depot',DepotController::class);
 Route::resource('entree',EntreeController::class);
 Route::resource('client',ClientController::class);
 Route::resource('sortie',SortieController::class);
-
+Route::resource('retour',RetourController::class);
+Route::resource('transfert',TransfertController::class);
+Route::resource('chauffeur',ChauffeurController::class);
 Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/user/{user}/edit', 'Auth\RegisterController@edit')->name('user.edit');
     Route::patch('/user/{user}', 'Auth\RegisterController@update')->name('user.update');
@@ -34,6 +36,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
 Auth::routes();
 Route::post('/stock/produit','DashboardController@getProduitDepotByIdBetweenToDate')->name('detail.produit.between.to.date');
 
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/json/chauffeur', 'ChauffeurController@storeJson')->name('json.chauffeur.store');
 
-
+Route::post('/chercher/produit', 'DashboardController@chercherProduit')->name('chercher.produit');
+Route::get('/valider/transfert/{id}','TransfertController@valide')->name('valider.transfert');

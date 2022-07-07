@@ -96,6 +96,19 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="Dépot" class="col-md-4 col-form-label text-md-right">Dépôt</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control select2" id="depot_id" name="depot_id" required="">
+                                    <option value="">Selectionnez</option>
+                                    @foreach ($depots as $depot)
+                                    <option value="{{$depot->id}}" {{ $depot->id==$user->depot_id ? 'selected' : '' }}>{{$depot->nomd}}</option>
+                                        @endforeach
+
+                                </select>
+                            </div>
+                        </div>
                                 <div>
                                     <center>
                                         <button type="submit" class="btn btn-success btn btn-lg "> MODIFIER</button>

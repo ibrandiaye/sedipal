@@ -42,14 +42,18 @@
                                         </ul>
                                     </div>
                                 @endif
-
+                                @if ($message = Session::get('error'))
+                                <div class="alert alert-danger">
+                                    <p>{{ $message }}</p>
+                                </div>
+                            @endif
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Depots</label>
-                                        <select class="form-control select2" id="depot_id" name="depot_id" required="">
+                                        <select class="form-control" id="depot_id" name="depot_id" required=""  {{ Auth::user()->role=="gestionnaire" ? "disabled='true'" : ''  }} >
                                             <option value="">Selectionnez</option>
                                             @foreach ($depots as $depot)
-                                            <option value="{{$depot->id}}" {{ $depot->id == $sortie->depot_id ? 'selected' : ''}}>{{$depot->nomd}}</option>
+                                            <option value="{{$depot->id}}"  {{  Auth::user()->depot_id==$depot->id ? 'selected' : '' }}>{{$depot->nomd}}</option>
                                                 @endforeach
 
                                         </select>
@@ -79,7 +83,12 @@
                                         </select>
                                     </div>
                                 </div>
-
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>N° Facture</label>
+                                        <input type="text" name="facs" id="facs"  value="{{ $sortie->facs }}" class="form-control"  required>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Prix Unitaire produit</label>
@@ -90,6 +99,22 @@
                                     <div class="form-group">
                                         <label>Quantité</label>
                                         <input type="number" name="quantite" id="quantite"  value="{{ $sortie->quantite }}" step='0.01' class="calcul  form-control"  required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Chauffeur</label>
+                                    <div class=" form-group input-group input-group-sm">
+
+                                        <select class="form-control select2" id="chauffeur_id" name="chauffeur_id" required="">
+                                            <option value="">Selectionnez</option>
+                                            @foreach ($chauffeurs as $chauffeur)
+                                            <option value="{{$chauffeur->id}}" {{$chauffeur->id==$sortie->chauffeur_id ? 'selected' : ''}}>{{$chauffeur->nom }}</option>
+                                                @endforeach
+
+                                        </select>
+                                        <span class="input-group-append">
+                                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-default">Nouveau Chauffeur!</button>
+                                          </span>
                                     </div>
                                 </div>
                                 <p><strong style="color: red;" id="total"> {{  $sortie->prixv *  $sortie->quantite}} F CFA</strong></p>
@@ -106,7 +131,33 @@
         </div>
 
     </div>
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"> Ajouter un chauffeur</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>Nom chauffeur</label>
+                        <input type="text" name="nom" id="nom" value="{{ old('nom') }}" class="form-control"  required>
+                    </div>
+                </div>
 
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              <button type="button" class="btn btn-primary" id="jsonchauffeur" data-dismiss="modal">Ajouter</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
 @endsection
 
 @section('script')
@@ -127,5 +178,26 @@ $(document).ready(function () {
        $("#total").html(prixv * quantite +" CFA");
       });
 });
+$("#jsonchauffeur").click(function () {
+
+
+    var nom =  $("#nom").val();
+    var chauffeur='';
+
+        $.ajax({
+            type:'POST',
+               url:"{{ route('json.chauffeur.store') }}",
+               data:{_token:'<?php echo csrf_token() ?>', nom:nom},
+            success:function(data) {
+
+
+                    chauffeur ="<option value="+data.id+" selected>"+data.nom+"</option>";
+
+                $("#chauffeur_id").append(chauffeur);
+            }
+        });
+
+    });
+
 </script>
 @endsection

@@ -18,7 +18,7 @@ class ProduitController extends Controller
 
     public function __construct(ProduitRepository $produitRepository,
     DepotRepository $depotRepository, DepotProduitRepository $depotProduitRepository){
-        // $this->middleware(['auth']);
+        $this->middleware(['auth']);
         $this->produitRepository =$produitRepository;
         $this->depotProduitRepository = $depotProduitRepository;
         $this->depotRepository = $depotRepository;

@@ -125,7 +125,7 @@
         <div class="card border-danger border-0">
             <div class="card-header bg-success text-center"><h5>Liste des Sorties du produit: {{ $produit->nomp }}</h5></div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-responsive-md table-striped text-center">
+                    <table id="example1" class="table tables table-bordered table-responsive-md table-striped text-center">
                         <thead>
                             <tr>
                                 <th>Date</th>

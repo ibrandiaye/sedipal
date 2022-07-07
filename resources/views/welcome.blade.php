@@ -1,7 +1,10 @@
 @extends('layout')
 @section('title', '| produit')
 
-
+@section('css')
+<link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+@endsection
 @section('content')
 
 <div class="content-wrapper">
@@ -46,12 +49,40 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                Rechercher un produit
+            </div>
+
+            <div class="card-body">
+                <form action="{{ route('chercher.produit') }}" method="POST">
+                    @csrf
+
+                        <label>Produit</label>
+                        <div class="form-group input-group input-group-sm">
+
+                            <select class="form-control select2" id="produit_id" name="produit_id" required="">
+                                <option value="">Selectionnez</option>
+                                @foreach ($produits as $produit)
+                                <option value="{{$produit->id}}">{{$produit->nomp}}</option>
+                                    @endforeach
+                            </select>
+                            <span class="input-group-append">
+                                <button type="submit" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-default">Rechercher!</button>
+                              </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 @foreach ($depots as $depot )
 <div class="col-12">
     <div class="card border-danger border-0">
         <div class="card-header bg-success text-center"><h4>Depot de {{ $depot->nomd }}</h4></div>
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-responsive-md table-striped text-center">
+                <table id="example1" class="table tables table-bordered table-responsive-md table-striped text-center">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -89,4 +120,13 @@
 </div>
 
 @endsection
+@section('script')
 
+<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script>
+$(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+});
+</script>
+@endsection

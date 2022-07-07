@@ -19,4 +19,7 @@ class Produit extends Model
     public function sorties(){
         return $this->hasMany(Sortie::class);
     }
+    public function transferts(){
+        return $this->hasMany(Transfert::class);
+    }
 }

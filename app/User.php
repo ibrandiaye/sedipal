@@ -16,9 +16,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role'
+        'name', 'email', 'password','role','depot_id'
     ];
 
+
+    public function depot(){
+        return $this->belongsTo(Depot::class);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -9,6 +9,7 @@ use App\User;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -76,12 +77,14 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
+            'depot_id' =>$data['depot_id']
         ]);
     }
 
     public function edit($id){
         $user = $this->userRepository->getById($id);
-        return view('auth.edit',compact('user'));
+        $depots =  DB::table('depots')->get();
+        return view('auth.edit',compact('user','depots'));
     }
     public function update(HttpRequest $request,$id){
       if($request['password']){

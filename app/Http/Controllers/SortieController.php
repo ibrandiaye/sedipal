@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\DepotProduit;
+use App\Entree;
+use App\Repositories\ChauffeurRepository;
 use App\Repositories\ClientRepository;
 use App\Repositories\DepotProduitRepository;
 use App\Repositories\DepotRepository;
+use App\Repositories\FactureRepository;
 use App\Repositories\ProduitRepository;
 use App\Repositories\SortieRepository;
+use App\Sortie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SortieController extends Controller
 {
@@ -17,16 +22,20 @@ class SortieController extends Controller
     protected $produitRepository;
     protected $depotRepository;
     protected $depotProduitRepository;
+    protected $chauffeurRepository;
+    protected $factureRepository;
 
     public function __construct(SortieRepository $sortieRepository, ClientRepository $clientRepository,
-    ProduitRepository $produitRepository, DepotRepository $depotRepository,
-    DepotProduitRepository $depotProduitRepository){
-        // $this->middleware(['auth']);
+    ProduitRepository $produitRepository, DepotRepository $depotRepository, FactureRepository $factureRepository,
+    DepotProduitRepository $depotProduitRepository, ChauffeurRepository $chauffeurRepository){
+         $this->middleware(['auth']);
         $this->sortieRepository =$sortieRepository;
         $this->clientRepository = $clientRepository;
         $this->produitRepository = $produitRepository;
         $this->depotRepository = $depotRepository;
         $this->depotProduitRepository = $depotProduitRepository;
+        $this->chauffeurRepository = $chauffeurRepository;
+        $this->factureRepository = $factureRepository;
     }
 
     /**
@@ -47,10 +56,13 @@ class SortieController extends Controller
      */
     public function create()
     {
+
         $produits = $this->produitRepository->getAll();
         $clients = $this->clientRepository->getAll();
         $depots = $this->depotRepository->getAll();
-        return view('sortie.add',compact('produits','clients','depots'));
+        $chauffeurs = $this->chauffeurRepository->getAll();
+        $depotProduits = $this->depotProduitRepository->getByProduitAndDepotByDeport(Auth::user()->depot_id);
+        return view('sortie.add',compact('produits','clients','depots','chauffeurs','depotProduits'));
     }
 
     /**
@@ -61,19 +73,46 @@ class SortieController extends Controller
      */
     public function store(Request $request)
     {
+        $request['depot_id']=Auth::user()->depot_id;
+        $arrlength = count($request['produit_id']);
+        $produits = $request['produit_id'];
+        $quantites = $request['quantite'];
+        for($x = 0; $x < $arrlength; $x++) {
+            $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($produits[$x],$request['depot_id']);
+            if($depotProduit->stock < $quantites[$x])
+            {
+                $depot = $this->depotRepository->getById($request['depot_id']);
+                $produit = $this->produitRepository->getById($produits[$x]);
+                return redirect()->back()->with('error','stock de '.$produit->nomp.'   insuffisant  dans le dépot de '.$depot->nomd);
+            }
+        }
+       $facture =  $this->factureRepository->store($request->only(['depot_id','chauffeur_id','client_id','facs']));
+        for($x = 0; $x < $arrlength; $x++) {
+            $sortie = new Sortie();
+            $sortie->produit_id = $produits[$x];
+            $sortie->quantite = $quantites[$x];
+            $sortie->prixv = 0;
+            $sortie->facture_id = $facture->id;
+            $sortie->save();
+            $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($produits[$x],$request['depot_id']);
+            $depotProduit->stock = $depotProduit->stock - $quantites[$x];
 
+            DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);
+        }
+            /* $request['depot_id']=Auth::user()->depot_id;
         $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($request['produit_id'],$request['depot_id']);
-        if($depotProduit->stock >= $request['quantite'])
-        {
+
             $sorties = $this->sortieRepository->store($request->all());
+
             $depotProduit->stock = $depotProduit->stock - $request['quantite'] ;
+
             DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);
         }else{
             $depot = $this->depotRepository->getById($request['depot_id']);
             $produit = $this->produitRepository->getById($request['produit_id']);
             return redirect()->back()->with('error','stock de '.$produit->nomp.'   insuffisant  dans le dépot de '.$depot->nomd);
         }
-
+*/
         return redirect('sortie');
 
     }
@@ -102,7 +141,8 @@ class SortieController extends Controller
         $produits = $this->produitRepository->getAll();
         $clients = $this->clientRepository->getAll();
         $depots = $this->depotRepository->getAll();
-        return view('sortie.edit',compact('sortie','produits','clients','depots'));
+        $chauffeurs = $this->chauffeurRepository->getAll();
+        return view('sortie.edit',compact('sortie','produits','clients','depots','chauffeurs'));
     }
 
     /**
@@ -114,7 +154,20 @@ class SortieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->sortieRepository->update($id, $request->all());
+        $request['depot_id']=Auth::user()->depot_id;
+        $sortie = $this->sortieRepository->getById($id);
+       // dd($sortie->quantite);
+        $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($request['produit_id'],$request['depot_id']);
+        if($depotProduit->stock + $sortie->quantite >= $request['quantite'])
+        {
+            $this->sortieRepository->update($id, $request->all());
+            $depotProduit->stock = ($depotProduit->stock + $sortie->quantite ) - $request['quantite'] ;
+            DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);
+        }else{
+            $depot = $this->depotRepository->getById($request['depot_id']);
+            $produit = $this->produitRepository->getById($request['produit_id']);
+            return redirect()->route('sortie.edit',['sortie'=>$id])->with('error','stock de '.$produit->nomp.'   insuffisant  dans le dépot de '.$depot->nomd);
+        }
         return redirect('sortie');
     }
 

@@ -191,7 +191,7 @@
                     </li>
                      <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-upload"></i>
+                            <i class='fas fa-arrow-right'></i>
 
                             <p>
                                 Entree
@@ -239,7 +239,31 @@
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-share"></i>
+                            <i class="fas fa-users"></i>
+
+                            <p>
+                            Chauffeur
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('chauffeur.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ajouter</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('chauffeur.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>lister</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class='fas fa-arrow-left'></i>
 
                             <p>
                                 Sortie
@@ -255,6 +279,40 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('sortie.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>lister</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('retour.index') }}" class="nav-link">
+                            <i class='fas fa-arrows-alt-h'></i>
+
+                            <p>
+                                Retour
+                            </p>
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+
+                            <i class='fas fa-exchange-alt'></i>
+                            <p>
+                            Transfert
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('transfert.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ajouter</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('transfert.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>lister</p>
                                 </a>
@@ -380,7 +438,7 @@
                 'pdfHtml5'
             ]
         });  --}}
-        $('.table').DataTable({
+        $('.tables').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
             },

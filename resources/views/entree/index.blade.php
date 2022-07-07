@@ -36,7 +36,7 @@
     <div class="card border-danger border-0">
         <div class="card-header bg-success text-center">LISTE D'ENREGISTREMENT DES ENTREES</div>
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-responsive-md table-striped text-center">
+                <table id="example1" class="table tables table-bordered table-responsive-md table-striped text-center">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -46,6 +46,8 @@
                             <th>Quantite</th>
                             <th>Montant</th>
                             <th>Depot</th>
+                            <th>Chauffeur</th>
+                            <th>Facture</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -53,18 +55,25 @@
                     @foreach ($entrees as $entree)
                         <tr>
                             <td>{{ $entree->id }}</td>
-                           <td> {{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:m') }}</td>
-                            <td>{{ $entree->fournisseur->nomf }}</td>
+                           <td> {{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:i') }}</td>
+                            <td>{{ $entree->facturee->fournisseur->nomf }}</td>
                             <td>{{ $entree->produit->nomp }}</td>
                             <td>{{ $entree->quantite }}</td>
                             <td>{{ $entree->quantite  * $entree->prixu }}</td>
-                            <td>{{ $entree->depot->nomd }}</td>
+                            <td>{{ $entree->facturee->depot->nomd }}</td>
+                            <td>@if($entree->facturee->chauffeur) {{ $entree->facturee->chauffeur->nom }}@endif</td>
+                            <td> @if($entree->facturee->face)
+                                <a href="{{ asset('facture/'.$entree->facturee->face) }}" target="blank">Facture</a>
+                                @endif</td>
 
                              <td>
-                                <a href="{{ route('entree.edit', $entree->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>
-                                {!! Form::open(['method' => 'DELETE', 'route'=>['entree.destroy', $entree->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
+                                @if(Auth::user()->depot_id== $entree->facturee->depot->id)
+
+
+                                <a href="{{ route('entree.edit', $entree->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a> @endif
+                                @if(Auth::user()->role== 'administrateur')  {!! Form::open(['method' => 'DELETE', 'route'=>['entree.destroy', $entree->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                                {!! Form::close() !!}
+                                {!! Form::close() !!}@endif
 
 
 

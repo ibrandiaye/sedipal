@@ -21,5 +21,10 @@ class DepotProduitRepository extends RessourceRepository{
         ->where('produit_id',$produit_id)
         ->get();
     }
+    public function getByProduitAndDepotByDeport($depot_id){
+        return DB::table('depot_produits')
+        ->where('depot_id',$depot_id)
+        ->get();
+    }
 
 }

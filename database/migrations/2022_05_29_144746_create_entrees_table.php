@@ -17,19 +17,12 @@ class CreateEntreesTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('produit_id');
-            $table->unsignedBigInteger('depot_id');
             $table->integer('quantite');
-            $table->double('prixu');
-            $table->unsignedBigInteger('fournisseur_id');
+            $table->double('prixu')->nullable();
             $table->foreign('produit_id')
             ->references('id')
             ->on('produits');
-            $table->foreign('depot_id')
-            ->references('id')
-            ->on('depots');
-            $table->foreign('fournisseur_id')
-            ->references('id')
-            ->on('fournisseurs');
+
             $table->timestamps();
         });
     }

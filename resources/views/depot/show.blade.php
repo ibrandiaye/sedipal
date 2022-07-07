@@ -77,6 +77,7 @@
                             <th>Quantite</th>
                             <th>Montant</th>
                             <th>Depot</th>
+                            <th>Chauffeur</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,6 +88,7 @@
                             <td>{{ $entree->quantite }}</td>
                             <td>{{ $entree->prixu * $entree->quantite }}</td>
                             <td>{{ $entree->depot->nomd }}</td>
+                            <td>@if($entree->chauffeur) {{ $entree->chauffeur->nom }}@endif</td>
                         </tr>
                         @endforeach
 
@@ -111,6 +113,7 @@
                                 <th>Quantite</th>
                                 <th>Montant</th>
                                 <th>Dépot</th>
+                                <th>Chauffeur</th>
                                 @if(Auth::user()->role=='administrateur')<th>Ecart</th>@endif
                             </tr>
                         </thead>
@@ -122,6 +125,9 @@
                                 <td>{{ $sortie->quantite }}</td>
                                 <td>{{ $sortie->prixv * $sortie->quantite }}</td>
                                 <td>{{ $sortie->depot->nomd }}</td>
+                                <td> @if($sortie->chauffeur)
+                                    {{ $sortie->chauffeur->nom }}
+                                @endif</td>
                                 @if(Auth::user()->role=='administrateur')<td>{{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}</td>@endif
                             </tr>
                             @endforeach
