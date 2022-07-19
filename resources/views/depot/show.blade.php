@@ -81,15 +81,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($depot->entrees as $entree)
+                    @foreach ($depot->facturees as $facturees)
+                    @foreach ($facturees ->entrees as $entree)
                         <tr>
                             <td>{{  Carbon\Carbon::parse($entree->created_at)->format('d-m-Y H:m') }}</td>
                             <td>{{ $entree->produit->nomp }}</td>
                             <td>{{ $entree->quantite }}</td>
                             <td>{{ $entree->prixu * $entree->quantite }}</td>
-                            <td>{{ $entree->depot->nomd }}</td>
-                            <td>@if($entree->chauffeur) {{ $entree->chauffeur->nom }}@endif</td>
+                            <td>{{ $facturees->depot->nomd }}</td>
+                            <td>@if($facturees->chauffeur) {{ $facturees->chauffeur->nom }}@endif</td>
                         </tr>
+                        @endforeach
                         @endforeach
 
                     </tbody>
@@ -118,20 +120,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($depot->sorties as $sortie)
+                        @foreach ($depot->factures as $factures)
+                        @foreach ($factures->sorties as $sortie)
                             <tr>
                                 <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:m') }}</td>
                                 <td>{{ $sortie->produit->nomp }}</td>
                                 <td>{{ $sortie->quantite }}</td>
                                 <td>{{ $sortie->prixv * $sortie->quantite }}</td>
-                                <td>{{ $sortie->depot->nomd }}</td>
-                                <td> @if($sortie->chauffeur)
-                                    {{ $sortie->chauffeur->nom }}
+                                <td>{{ $factures->depot->nomd }}</td>
+                                <td> @if($factures->chauffeur)
+                                    {{ $factures->chauffeur->nom }}
                                 @endif</td>
                                 @if(Auth::user()->role=='administrateur')<td>{{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}</td>@endif
                             </tr>
                             @endforeach
-
+                            @endforeach
                         </tbody>
                     </table>
 

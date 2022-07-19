@@ -10,13 +10,13 @@ class SortieRepository extends RessourceRepository{
         $this->model = $sortie;
     }
     public function getByProduitId($produit_id){
-        return Sortie::with(['produit','depot','client'])
+        return Sortie::with(['produit','facture','facture.depot','facture.client'])
         ->where('produit_id',$produit_id)
         ->orderBy('id','desc')
         ->get();
     }
     public function getByProduitIdBetweenToDate($produit_id,$debut,$fin){
-        return Sortie::with(['produit','depot','client'])
+        return Sortie::with(['produit','facture','facture.depot','facture.client'])
         ->where('produit_id',$produit_id)
         ->whereBetween('created_at',[$debut,$fin])
         ->orderBy('id','desc')

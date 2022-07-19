@@ -96,4 +96,8 @@ class ClientController extends Controller
         $this->clientRepository->destroy($id);
         return redirect('client');
     }
+    public function storeJson(Request $request){
+        $client = $this->clientRepository->store($request->all());
+        return response()->json($client);
+    }
 }

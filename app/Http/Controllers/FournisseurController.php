@@ -97,4 +97,9 @@ class FournisseurController extends Controller
         $this->fournisseurRepository->destroy($id);
         return redirect('fournisseur');
     }
+
+    public function storeJson(Request $request){
+        $fournisseur = $this->fournisseurRepository->store($request->all());
+        return response()->json($fournisseur);
+    }
 }

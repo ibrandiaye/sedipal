@@ -79,8 +79,8 @@
                                     </div>
                                 </div>  --}}
                                 <div class="col-lg-6">
-                                    <div class="form-group">
                                         <label>Client</label>
+                                        <div class="form-group input-group input-group-sm">
                                         <select class="form-control select2" id="client_id" name="client_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($clients as $client)
@@ -88,6 +88,9 @@
                                                 @endforeach
 
                                         </select>
+                                        <span class="input-group-append">
+                                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-default1">Nouveau client!</button>
+                                          </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -213,6 +216,41 @@
             <!-- /.modal-dialog -->
           </div>
 
+          <div class="modal fade" id="modal-default1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Ajouter un client</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Nom client</label>
+                            <input type="text" name="nomc" id="nomc"  value="{{ old('nomc') }}" class="form-control"  required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Tel client</label>
+                            <input type="text" name="telc" id="telc"  value="{{ old('telc') }}" class="form-control"  >
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                  <button type="button" class="btn btn-primary" id="jsonclient" data-dismiss="modal">Ajouter</button>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+
+
 @endsection
 
 @section('script')
@@ -251,7 +289,27 @@ $("#jsonchauffeur").click(function () {
         });
 
     });
+    $("#jsonclient").click(function () {
 
+
+        var nomc =  $("#nomc").val();
+        var telc =  $("#telc").val();
+        var client='';
+
+            $.ajax({
+                type:'POST',
+                   url:"{{ route('json.client.store') }}",
+                   data:{_token:'<?php echo csrf_token() ?>', nomc:nomc,telc:telc},
+                success:function(data) {
+
+
+                        client ="<option value="+data.id+" selected>"+data.nomc+"</option>";
+
+                    $("#client_id").append(client);
+                }
+            });
+
+        });
 </script>
 
 <script>

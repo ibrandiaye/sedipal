@@ -58,18 +58,18 @@
                             <td>{{ $transfert->destinataire }}</td>
                             @if(Auth::user()->role=='administrateur')<td>{{( $transfert->quantite  * $transfert->prixv) - ($transfert->quantite  * $transfert->produit->prixu) }}</td>@endif
                              <td>
-                                @if(Auth::user()->depot_id== $transfert->depot->id)
+                                @if(Auth::user()->depot_id== $transfert->depot->id  &&  $transfert->valide==0)
                                 <a href="{{ route('transfert.edit', $transfert->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>
                                {{--   <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default{{ $transfert->id }}">
                                     Retour
                                   </button>  --}}
                                 @endif
-                                @if(Auth::user()->role== 'administrateur') {!! Form::open(['method' => 'DELETE', 'route'=>['transfert.destroy', $transfert->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
+                                @if(Auth::user()->role== 'administrateur' &&  $transfert->valide==0) {!! Form::open(['method' => 'DELETE', 'route'=>['transfert.destroy', $transfert->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                 {!! Form::close() !!}@endif
-                                @if(Auth::user()->depot_id== $transfert->destinataire_id and  $transfert->valide==0)
+                               {{--   @if(Auth::user()->depot_id== $transfert->destinataire_id &&  $transfert->valide==0)
                                 <a class="btn btn-danger" href="{{ route('valider.transfert', ['id'=>$transfert->id]) }}"><i class="far fa-trash-alt"></i></a>
-                                  @endif
+                                  @endif  --}}
 
 
                             </td>

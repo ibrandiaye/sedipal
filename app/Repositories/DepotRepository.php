@@ -22,8 +22,8 @@ class DepotRepository extends RessourceRepository{
         ->get();
     }
     public function getByDepot($id){
-        return Depot::with(['depotProduits','depotProduits.produit','entrees','sorties',
-        'entrees.produit','sorties.produit'])
+        return Depot::with(['depotProduits','depotProduits.produit','facturees','facturees.entrees', 'factures','factures.sorties',
+        'facturees.entrees.produit','factures.sorties.produit'])
         ->where('id',$id)
         ->first();
     }

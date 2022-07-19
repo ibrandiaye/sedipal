@@ -108,7 +108,7 @@
                             <td>{{ $entree->produit->nomp }}</td>
                             <td>{{ $entree->quantite }}</td>
                             <td>{{ $entree->prixu * $entree->quantite }}</td>
-                            <td>{{ $entree->depot->nomd }}</td>
+                            <td>{{ $entree->facturee->depot->nomd }}</td>
                         </tr>
                         @endforeach
 
@@ -143,7 +143,7 @@
                                 <td>{{ $sortie->produit->nomp }}</td>
                                 <td>{{ $sortie->quantite }}</td>
                                 <td>{{ $sortie->prixv * $sortie->quantite }}</td>
-                                <td>{{ $sortie->depot->nomd }}</td>
+                                <td>{{ $sortie->facture->depot->nomd }}</td>
                                 @if(Auth::user()->role=='administrateur')<td>{{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}</td>@endif
                             </tr>
                             @endforeach

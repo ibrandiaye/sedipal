@@ -65,8 +65,9 @@
                                     </div>
                                 </div>  --}}
                                 <div class="col-lg-6">
-                                    <div class="form-group">
+
                                         <label>Fournisseur</label>
+                                        <div class="form-group  input-group input-group-sm">
                                         <select class="form-control select2" id="fournisseur_id" name="fournisseur_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($fournisseurs as $fournisseur)
@@ -74,6 +75,9 @@
                                                 @endforeach
 
                                         </select>
+                                        <span class="input-group-append">
+                                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#modal-default1">Nouveau Fournisseur!</button>
+                                          </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -204,7 +208,39 @@
             <!-- /.modal-dialog -->
           </div>
 
+          <div class="modal fade" id="modal-default1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Ajouter un fournisseur</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Nom fournisseur</label>
+                            <input type="text" id="nomf" name="nomf"  value="{{ old('nomf') }}" class="form-control"  required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Tel fournisseur</label>
+                            <input type="text" name="telf" id="telf" value="{{ old('telf') }}" class="form-control"  >
+                        </div>
+                    </div>
 
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                  <button type="button" class="btn btn-primary" id="jsonfournisseur" data-dismiss="modal">Ajouter</button>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
 @endsection
 
 @section('script')
@@ -225,26 +261,47 @@ $(document).ready(function(){
        console.log(prixu * quantite);
       });
 });
-$("#jsonchauffeur").click(function () {
+$("#jsonfournisseur").click(function () {
 
 
-var nom =  $("#nom").val();
-var chauffeur='';
+var nomf =  $("#nomf").val();
+var telf = $("#telf").val();
+var fournisseur='';
 
     $.ajax({
         type:'POST',
-           url:"{{ route('json.chauffeur.store') }}",
-           data:{_token:'<?php echo csrf_token() ?>', nom:nom},
+           url:"{{ route('json.fournisseur.store') }}",
+           data:{_token:'<?php echo csrf_token() ?>', nomf:nomf, telf:telf},
         success:function(data) {
 
 
-                chauffeur ="<option value="+data.id+" selected>"+data.nom+"</option>";
+            fournisseur ="<option value="+data.id+" selected>"+data.nomf+"</option>";
 
-            $("#chauffeur_id").append(chauffeur);
+            $("#fournisseur_id").append(fournisseur);
         }
     });
 
 });
+
+$("#jsonchauffeur").click(function () {
+
+
+    var nom =  $("#nom").val();
+    var chauffeur='';
+
+        $.ajax({
+            type:'POST',
+               url:"{{ route('json.chauffeur.store') }}",
+               data:{_token:'<?php echo csrf_token() ?>', nom:nom},
+            success:function(data) {
+
+                chauffeur ="<option value="+data.id+" selected>"+data.nom+"</option>";
+
+                $("#chauffeur_id").append(chauffeur);
+            }
+        });
+
+    });
 </script>
 <script>
     $(document).ready(function () {

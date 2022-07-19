@@ -37,6 +37,8 @@ Auth::routes();
 Route::post('/stock/produit','DashboardController@getProduitDepotByIdBetweenToDate')->name('detail.produit.between.to.date');
 
 Route::post('/json/chauffeur', 'ChauffeurController@storeJson')->name('json.chauffeur.store');
+Route::post('/json/fournisseur', 'FournisseurController@storeJson')->name('json.fournisseur.store');
+Route::post('/json/client', 'ClientController@storeJson')->name('json.client.store');
 
 Route::post('/chercher/produit', 'DashboardController@chercherProduit')->name('chercher.produit');
 Route::get('/valider/transfert/{id}','TransfertController@valide')->name('valider.transfert');
