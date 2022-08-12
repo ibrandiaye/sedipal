@@ -45,8 +45,10 @@ class SortieController extends Controller
      */
     public function index()
     {
+        $clients = $this->clientRepository->getAll();
         $sorties = $this->sortieRepository->getAll();
-        return view('sortie.index',compact('sorties'));
+        $client_id = 0;
+        return view('sortie.index',compact('sorties','clients','client_id'));
     }
 
     /**
@@ -181,5 +183,12 @@ class SortieController extends Controller
     {
         $this->sortieRepository->destroy($id);
         return redirect('sortie');
+    }
+
+    public function getByDateAndClient(Request $request){
+        $sorties = $this->sortieRepository->getByDateAndClient($request['date']);
+        $client_id = $request['client_id'];
+        $clients = $this->clientRepository->getAll();
+        return view('sortie.index',compact('sorties','client_id','clients'));
     }
 }

@@ -37,7 +37,7 @@ class TransfertController extends Controller
      */
     public function index()
     {
-        $transferts = $this->transfertRepository->getAll();
+        $transferts = $this->transfertRepository->tansfertForMyDepot(Auth::user()->depot_id);
         return view('transfert.index',compact('transferts'));
     }
 
@@ -181,5 +181,12 @@ class TransfertController extends Controller
         DepotProduit::find($depotProduitSource->id)->update(['stock' =>  $depotProduitSource->stock]);
         Transfert::find($id)->update(['valide' =>  1]);
         return redirect('transfert');
+    }
+    public function allTansfertForMyDepotNoValidate(){
+        //dd('dd');
+        $transferts = $this->transfertRepository->allTansfertForMyDepotNoValidate(Auth::user()->depot_id);
+
+        return view('transfert.index',compact('transferts'));
+
     }
 }

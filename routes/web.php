@@ -41,4 +41,8 @@ Route::post('/json/fournisseur', 'FournisseurController@storeJson')->name('json.
 Route::post('/json/client', 'ClientController@storeJson')->name('json.client.store');
 
 Route::post('/chercher/produit', 'DashboardController@chercherProduit')->name('chercher.produit');
+Route::post('/chercher/sortie/date', 'SortieController@getByDateAndClient')->name('date.client.sortie');
 Route::get('/valider/transfert/{id}','TransfertController@valide')->name('valider.transfert');
+Route::get('/non-valider/transfert','TransfertController@allTansfertForMyDepotNoValidate')->name('nonvalider.transfert');
+
+Route::get('/chercher/produit/{id}', 'DashboardController@chercherProduitGet')->name('get.chercher.produit');

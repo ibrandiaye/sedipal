@@ -41,7 +41,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nom du produit</th>
-                            <th>Prix Unitaire</th>
+                             <th>Prix Unitaire</th>
                             <th>Unité</th>
                             <th>Actions</th>
                         </tr>
@@ -50,8 +50,8 @@
                     @foreach ($produits as $produit)
                         <tr>
                             <td>{{ $produit->id }}</td>
-                            <td>{{ $produit->nomp }}</td>
-                            <td>{{ $produit->prixu }}</td>
+                            <td><a href="{{ route('get.chercher.produit', ['id'=>$produit->id]) }}">{{ $produit->nomp }}</a></td>
+                             <td>{{ $produit->prixu }}</td>
                             <td>{{ $produit->unite }}</td>
                              <td>
                                 <a href="{{ route('produit.edit', $produit->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>

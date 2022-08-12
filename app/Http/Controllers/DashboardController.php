@@ -7,7 +7,9 @@ use App\Repositories\DepotRepository;
 use App\Repositories\EntreeRepository;
 use App\Repositories\ProduitRepository;
 use App\Repositories\SortieRepository;
+use App\Repositories\TransfertRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -17,9 +19,10 @@ class DashboardController extends Controller
 
     protected $entreeRepository;
     protected $sortieRepository;
+    protected $transfertRepository;
     public function __construct(ProduitRepository $produitRepository,
     DepotRepository $depotRepository,DepotProduitRepository $depotProduitRepository,EntreeRepository $entreeRepository,
-    SortieRepository $sortieRepository)
+    SortieRepository $sortieRepository, TransfertRepository $transfertRepository)
     {
         $this->middleware('auth');
         $this->produitRepository = $produitRepository;
@@ -27,6 +30,7 @@ class DashboardController extends Controller
         $this->depotProduitRepository = $depotProduitRepository;
         $this->entreeRepository = $entreeRepository;
         $this->sortieRepository = $sortieRepository;
+        $this->transfertRepository = $transfertRepository;
     }
 
     public function  listProduit(){
@@ -54,8 +58,9 @@ class DashboardController extends Controller
         $depots = $this->depotRepository->getDepotWithRelation();
         $stocks = $this->depotRepository->getStockByDepots();
         $produits = $this->produitRepository->getAll();
+        $nbTransfert = $this->transfertRepository->tansfertForMyDepotNoValidate(Auth::user()->depot_id);
         //dd($stocks);
-        return view('welcome',compact('depots','stocks','produits'));
+        return view('welcome',compact('depots','stocks','produits','nbTransfert'));
     }
     public function getProduitDepotById($produit_id){
         $depotProduits = $this->depotProduitRepository->getDepotProduitByProduit($produit_id);
@@ -81,6 +86,13 @@ class DashboardController extends Controller
         $produit = $this->produitRepository->getById($request['produit_id']);
         $entrees = $this->entreeRepository->getByProduitId($request['produit_id']);
         $sorties = $this->sortieRepository->getByProduitId($request['produit_id']);
+        return view('show',compact('depotProduits','produit','sorties','entrees'));
+    }
+    public function chercherProduitGet($id){
+        $depotProduits = $this->depotProduitRepository->getDepotProduitByProduit($id);
+        $produit = $this->produitRepository->getById($id);
+        $entrees = $this->entreeRepository->getByProduitId($id);
+        $sorties = $this->sortieRepository->getByProduitId($id);
         return view('show',compact('depotProduits','produit','sorties','entrees'));
     }
 }

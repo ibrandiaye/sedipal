@@ -43,7 +43,8 @@
                             <th>Date</th>
                             <th>Produit</th>
                             <th>Quantite</th>
-                            <th>Depot</th>
+                            <th>Dépot Expéditeur</th>
+                            <th>Dépot Destinataire</th>
                             @if(Auth::user()->role=='administrateur')<th>Ecart</th>@endif
                             <th>Actions</th>
                         </tr>
@@ -53,8 +54,9 @@
                         <tr>
                             <td>{{ $transfert->id }}</td>
                             <td>{{  Carbon\Carbon::parse( $transfert->created_at)->format('d-m-Y H:i') }}</td>
-                            <td>{{ $transfert->produit->nomp }}</td>
+                            <td><a href="{{ route('get.chercher.produit', ['id'=>$transfert->produit->id]) }}">{{ $transfert->produit->nomp }}</a></td>
                             <td>{{ $transfert->quantite }}</td>
+                            <td>{{ $transfert->depot->nomd }}</td>
                             <td>{{ $transfert->destinataire }}</td>
                             @if(Auth::user()->role=='administrateur')<td>{{( $transfert->quantite  * $transfert->prixv) - ($transfert->quantite  * $transfert->produit->prixu) }}</td>@endif
                              <td>
@@ -67,9 +69,9 @@
                                 @if(Auth::user()->role== 'administrateur' &&  $transfert->valide==0) {!! Form::open(['method' => 'DELETE', 'route'=>['transfert.destroy', $transfert->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                 {!! Form::close() !!}@endif
-                               {{--   @if(Auth::user()->depot_id== $transfert->destinataire_id &&  $transfert->valide==0)
-                                <a class="btn btn-danger" href="{{ route('valider.transfert', ['id'=>$transfert->id]) }}"><i class="far fa-trash-alt"></i></a>
-                                  @endif  --}}
+                                @if(Auth::user()->depot_id== $transfert->destinataire_id &&  $transfert->valide==0)
+                                <a class="btn btn-success" href="{{ route('valider.transfert', ['id'=>$transfert->id]) }}"><i class="fas fa-archive"></i></a>
+                                  @endif
 
 
                             </td>

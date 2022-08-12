@@ -97,7 +97,7 @@
                             <th>Date</th>
                             <th>Produit</th>
                             <th>Quantite</th>
-                            <th>Montant</th>
+                            <th>fournisseur </th>
                             <th>Depot</th>
                         </tr>
                     </thead>
@@ -107,7 +107,7 @@
                             <td>{{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:m') }}  </td>
                             <td>{{ $entree->produit->nomp }}</td>
                             <td>{{ $entree->quantite }}</td>
-                            <td>{{ $entree->prixu * $entree->quantite }}</td>
+                            <td>{{ $entree->facturee->fournisseur->nomf }}</td>
                             <td>{{ $entree->facturee->depot->nomd }}</td>
                         </tr>
                         @endforeach
@@ -131,7 +131,8 @@
                                 <th>Date</th>
                                 <th>Produit</th>
                                 <th>Quantite</th>
-                                <th>Montant</th>
+                                <th>client</th>
+                                <th>Stock</th>
                                 <th>Dépot</th>
                                 @if(Auth::user()->role=='administrateur')<th>Ecart</th>@endif
                             </tr>
@@ -142,7 +143,12 @@
                                 <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:m') }}</td>
                                 <td>{{ $sortie->produit->nomp }}</td>
                                 <td>{{ $sortie->quantite }}</td>
-                                <td>{{ $sortie->prixv * $sortie->quantite }}</td>
+                                <td>{{ $sortie->facture->client->nomc }}</td>
+                                <td> @foreach ( $sortie->produit->depotProduits as $depotProduit )
+                                    @if( $depotProduit->produit_id== $sortie->produit->id and $sortie->facture->depot->id==$depotProduit->depot_id)
+                                        {{ $depotProduit->stock }}
+                                    @endif
+                                @endforeach</td>
                                 <td>{{ $sortie->facture->depot->nomd }}</td>
                                 @if(Auth::user()->role=='administrateur')<td>{{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}</td>@endif
                             </tr>

@@ -146,7 +146,7 @@
                             <i class="fas fa-database"></i>
 
                             <p>
-                                Produit
+                                Article
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>

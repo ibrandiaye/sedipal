@@ -46,12 +46,15 @@
                                         <input type="text" name="nomp"  value="{{ old('nomp') }}" class="form-control"  required>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                @if(Auth::user()->role== 'administrateur')
+                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Prix Unitaire produit</label>
                                         <input type="number" name="prixu"  value="{{ old('prixu') }}" step='0.01' class="form-control"  >
                                     </div>
                                 </div>
+                                @endif
+                                <input type="hidden" name="prixu"  value="0" step='0.01' class="form-control"  >
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Unité produit</label>

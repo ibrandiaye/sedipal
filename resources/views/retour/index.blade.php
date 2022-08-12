@@ -54,11 +54,11 @@
                         <tr>
                             <td>{{ $retour->id }}</td>
                            <td> {{  Carbon\Carbon::parse( $retour->created_at)->format('d-m-Y H:i') }}</td>
-                            <td>{{ $retour->sortie->client->nomc }}</td>
-                            <td>{{ $retour->sortie->produit->nomp }}</td>
+                            <td>{{ $retour->sortie->facture->client->nomc }}</td>
+                            <td><a href="{{ route('get.chercher.produit', ['id'=>$retour->sortie->produit->id]) }}">{{ $retour->sortie->produit->nomp }}</a></td>
                             <td>{{ $retour->quantite }}</td>
-                            <td>{{ $retour->sortie->depot->nomd }}</td>
-                            <td>{{ $retour->sortie->facs }}</td>
+                            <td>{{ $retour->sortie->facture->depot->nomd }}</td>
+                            <td>{{ $retour->sortie->facture->facs }}</td>
                              {{--  <td>
                                 @if(Auth::user()->depot_id== $retour->sortie->depot->id)
 

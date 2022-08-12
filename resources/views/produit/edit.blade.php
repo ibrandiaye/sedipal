@@ -49,12 +49,14 @@
                                         <input type="text" name="nomp"  value="{{ $produit->nomp}}" class="form-control"  required>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                @if(Auth::user()->role== 'administrateur')
+                                  <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Prix Unitaire produit</label>
                                         <input type="number" name="prixu"  value="{{ $produit->prixu }}" step='0.01' class="form-control"  >
                                     </div>
                                 </div>
+                                @endif
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Unité produit</label>

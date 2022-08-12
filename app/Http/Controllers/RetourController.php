@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DepotProduit;
 use App\Repositories\DepotProduitRepository;
+use App\Repositories\FactureRepository;
 use App\Repositories\RetourRepository;
 use App\Repositories\SortieRepository;
 use App\Sortie;
@@ -14,13 +15,16 @@ class RetourController extends Controller
     protected $retourRepository;
     protected $sortieRepository;
     protected $depotProduitRepository;
+    protected $factureRepository;
 
     public function __construct(RetourRepository $retourRepository,
-    SortieRepository $sortieRepository, DepotProduitRepository $depotProduitRepository){
+    SortieRepository $sortieRepository, DepotProduitRepository $depotProduitRepository,
+    FactureRepository $factureRepository){
          $this->middleware(['auth']);
         $this->retourRepository =$retourRepository;
         $this->sortieRepository = $sortieRepository;
         $this->depotProduitRepository = $depotProduitRepository;
+        $this->factureRepository = $factureRepository;
     }
 
     /**
@@ -53,10 +57,11 @@ class RetourController extends Controller
     public function store(Request $request)
     {
         $sortie = $this->sortieRepository->getById($request['sortie_id']);
+        $facture = $this->factureRepository->getById($sortie->facture_id);
         if($request['quantite'] <= $sortie->quantite){
             $diff = $sortie->quantite - $request['quantite'];
             Sortie::find($sortie->id)->update(['quantite'=>$diff]);
-            $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($sortie->produit_id,$sortie->depot_id);
+            $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($sortie->produit_id,$facture->depot_id);
             $depotProduit->stock = $depotProduit->stock  + $request['quantite'];
             DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);
             $retour = $this->retourRepository->store($request->all());

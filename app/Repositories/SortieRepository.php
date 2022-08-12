@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Sortie;
+use Carbon\Carbon;
 
 class SortieRepository extends RessourceRepository{
     public function __construct(Sortie $sortie)
@@ -15,11 +16,17 @@ class SortieRepository extends RessourceRepository{
         ->orderBy('id','desc')
         ->get();
     }
+
     public function getByProduitIdBetweenToDate($produit_id,$debut,$fin){
         return Sortie::with(['produit','facture','facture.depot','facture.client'])
         ->where('produit_id',$produit_id)
         ->whereBetween('created_at',[$debut,$fin])
         ->orderBy('id','desc')
+        ->get();
+    }
+    public function getByDateAndClient($date){
+        return Sortie::with(['produit','facture','facture.depot','facture.client'])
+        ->whereDate('created_at',$date)
         ->get();
     }
 }

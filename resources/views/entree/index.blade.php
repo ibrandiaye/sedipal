@@ -44,7 +44,7 @@
                             <th>Fournisseur</th>
                             <th>Produit</th>
                             <th>Quantite</th>
-                            <th>Montant</th>
+                            {{--  <th>Montant</th>  --}}
                             <th>Depot</th>
                             <th>Chauffeur</th>
                             <th>Facture</th>
@@ -57,9 +57,9 @@
                             <td>{{ $entree->id }}</td>
                            <td> {{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:i') }}</td>
                             <td>{{ $entree->facturee->fournisseur->nomf }}</td>
-                            <td>{{ $entree->produit->nomp }}</td>
+                            <td><a href="{{ route('get.chercher.produit', ['id'=>$entree->produit->id]) }}">{{ $entree->produit->nomp }}</a></td>
                             <td>{{ $entree->quantite }}</td>
-                            <td>{{ $entree->quantite  * $entree->prixu }}</td>
+                            {{--  <td>{{ $entree->quantite  * $entree->prixu }}</td>  --}}
                             <td>{{ $entree->facturee->depot->nomd }}</td>
                             <td>@if($entree->facturee->chauffeur) {{ $entree->facturee->chauffeur->nom }}@endif</td>
                             <td> @if($entree->facturee->face)

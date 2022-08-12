@@ -85,12 +85,12 @@
                                         <input type="text" name="face" id="face"  value="{{ $entree->face }}" class="form-control"  required>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                               {{--   <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Prix Unitaire produit</label>
                                         <input type="number" id="prixu" name="prixu"  value="{{ $entree->prixu }}" step='0.01' class="calcul form-control"  >
                                     </div>
-                                </div>
+                                </div>  --}}
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Quantité</label>

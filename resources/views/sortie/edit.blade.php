@@ -89,12 +89,13 @@
                                         <input type="text" name="facs" id="facs"  value="{{ $sortie->facs }}" class="form-control"  required>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                {{--  <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Prix Unitaire produit</label>
                                         <input type="number" id="prixv" name="prixv"  value="{{ $sortie->prixv }}" step='0.01' class="calcul form-control"  >
                                     </div>
-                                </div>
+                                </div>  --}}
+
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Quantité</label>
@@ -117,7 +118,7 @@
                                           </span>
                                     </div>
                                 </div>
-                                <p><strong style="color: red;" id="total"> {{  $sortie->prixv *  $sortie->quantite}} F CFA</strong></p>
+                               {{--   <p><strong style="color: red;" id="total"> {{  $sortie->prixv *  $sortie->quantite}} F CFA</strong></p>  --}}
                                 <div>
                                     <center>
                                         <button type="submit" class="btn btn-success btn btn-lg "> MODIFIER</button>
@@ -168,7 +169,7 @@
         //Initialize Select2 Elements
         $('.select2').select2()
     });
-$(document).ready(function () {
+{{--  $(document).ready(function () {
 
     $(".calcul").keyup(function(){
         console.log('keuup');
@@ -177,7 +178,7 @@ $(document).ready(function () {
        console.log(prixv * quantite);
        $("#total").html(prixv * quantite +" CFA");
       });
-});
+});  --}}
 $("#jsonchauffeur").click(function () {
 
 
