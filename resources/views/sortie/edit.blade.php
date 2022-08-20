@@ -77,7 +77,7 @@
                                         <select class="form-control select2" id="client_id" name="client_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($clients as $client)
-                                            <option value="{{$client->id}}" {{ $client->id == $sortie->client_id ? 'selected' : ''}}>{{$client->nomc}}</option>
+                                            <option value="{{$client->id}}" {{ $client->id == $sortie->facture->client_id ? 'selected' : ''}}>{{$client->nomc}}</option>
                                                 @endforeach
 
                                         </select>
@@ -86,7 +86,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>N° Facture</label>
-                                        <input type="text" name="facs" id="facs"  value="{{ $sortie->facs }}" class="form-control"  required>
+                                        <input type="text" name="facs" id="facs"  value="{{ $sortie->facture->facs }}" class="form-control"  required>
                                     </div>
                                 </div>
                                 {{--  <div class="col-lg-6">
@@ -109,7 +109,7 @@
                                         <select class="form-control select2" id="chauffeur_id" name="chauffeur_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($chauffeurs as $chauffeur)
-                                            <option value="{{$chauffeur->id}}" {{$chauffeur->id==$sortie->chauffeur_id ? 'selected' : ''}}>{{$chauffeur->nom }}</option>
+                                            <option value="{{$chauffeur->id}}" {{$chauffeur->id==$sortie->facture->chauffeur_id ? 'selected' : ''}}>{{$chauffeur->nom }}</option>
                                                 @endforeach
 
                                         </select>

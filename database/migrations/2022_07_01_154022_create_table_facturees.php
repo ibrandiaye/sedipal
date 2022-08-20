@@ -16,7 +16,7 @@ class CreateTableFacturees extends Migration
         Schema::create('facturees', function (Blueprint $table) {
             $table->id();
             $table->string('facs');
-            $table->string('face');
+            $table->string('face')->nullable();
             $table->unsignedBigInteger('chauffeur_id')->nullable();
             $table->unsignedBigInteger('depot_id');
             $table->unsignedBigInteger('fournisseur_id');

@@ -149,16 +149,20 @@ class EntreeController extends Controller
     public function update(Request $request, $id)
     {
         $request['depot_id']=Auth::user()->depot_id;
+        $entree = $this->entreeRepository->getById($id);
         if($request->facture){
             $facture = time().'.'.$request->facture->extension();
             $request->facture->move('facture/', $facture);
             $request->merge(['face'=>$facture]);
         }
+        $this->factureeRepository->update($request['facturee_id'],$request->all());
         $this->entreeRepository->update($id, $request->all());
+
         $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($request['produit_id'],$request['depot_id']);
-        $depotProduit->stock = $request['quantite'] + $depotProduit->stock;
+
+        $depotProduit->stock = ($request['quantite'] - $entree->quantite) + $depotProduit->stock;
         DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);
-        Produit::find($depotProduit->produit_id)->update(['prixu'=>$request['prixu']]);
+        //Produit::find($depotProduit->produit_id)->update(['prixu'=>$request['prixu']]);
 
         return redirect('entree');
     }

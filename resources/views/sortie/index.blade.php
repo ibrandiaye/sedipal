@@ -44,7 +44,7 @@
                         @csrf
                         <div class="row">
                         <div class="col-md-3">
-                            <label>Produit</label>
+                            <label>Client</label>
 
                             <div class="form-group input-group input-group-sm">
 
@@ -57,7 +57,7 @@
                         </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Produit</label>
+                            <label>Date</label>
                             <div class="form-group input-group input-group-sm">
 
                                <input type="date" name="date" class="form-control" required>

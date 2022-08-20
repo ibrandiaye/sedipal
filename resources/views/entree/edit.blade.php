@@ -73,7 +73,7 @@
                                         <select class="form-control select2" id="fournisseur_id" name="fournisseur_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($fournisseurs as $fournisseur)
-                                            <option value="{{$fournisseur->id}}" {{ $fournisseur->id == $entree->fournisseur_id ? 'selected' : ''}}>{{$fournisseur->nomf}}</option>
+                                            <option value="{{$fournisseur->id}}" {{ $fournisseur->id == $entree->facturee->fournisseur_id ? 'selected' : ''}}>{{$fournisseur->nomf}}</option>
                                                 @endforeach
 
                                         </select>
@@ -82,9 +82,10 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>N° Facture</label>
-                                        <input type="text" name="face" id="face"  value="{{ $entree->face }}" class="form-control"  required>
+                                        <input type="text" name="facs" id="facs"  value="{{ $entree->facturee->facs }}" class="form-control"  required>
                                     </div>
                                 </div>
+                                <input type="hidden" name="facturee_id" value="{{ $entree->facturee->id }}">
                                {{--   <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Prix Unitaire produit</label>
@@ -104,7 +105,7 @@
                                         <select class="form-control select2" id="chauffeur_id" name="chauffeur_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($chauffeurs as $chauffeur)
-                                            <option value="{{$chauffeur->id}}" {{$chauffeur->id==$entree->chauffeur_id ? 'selected' : ''}}>{{$chauffeur->nom }}</option>
+                                            <option value="{{$chauffeur->id}}" {{$chauffeur->id==$entree->facturee->chauffeur_id ? 'selected' : ''}}>{{$chauffeur->nom }}</option>
                                                 @endforeach
 
                                         </select>
@@ -116,10 +117,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Facture</label>
-                                        <input type="file" name="facture" id="facture"   class=" form-control"  required>
+                                        <input type="file" name="facture" id="facture"   class=" form-control"  >
                                     </div>
+                                    @if($entree->facturee->face)
+                                <a href="{{ asset('facture/'.$entree->facturee->face) }}" target="blank">Facture</a>
+                                @endif
                                 </div>
-                                <p><strong style="color: red;" id="total"> {{  $entree->prixu *  $entree->quantite}} F CFA</strong></p>
+                                {{--  <p><strong style="color: red;" id="total"> {{  $entree->prixu *  $entree->quantite}} F CFA</strong></p>  --}}
                                 <div>
                                     <center>
                                         <button type="submit" class="btn btn-success btn btn-lg "> MODIFIER</button>

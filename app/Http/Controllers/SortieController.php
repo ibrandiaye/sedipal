@@ -162,6 +162,7 @@ class SortieController extends Controller
         $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($request['produit_id'],$request['depot_id']);
         if($depotProduit->stock + $sortie->quantite >= $request['quantite'])
         {
+            $this->factureRepository->update($sortie->facture_id,$request->all());
             $this->sortieRepository->update($id, $request->all());
             $depotProduit->stock = ($depotProduit->stock + $sortie->quantite ) - $request['quantite'] ;
             DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);

@@ -101,7 +101,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Facture</label>
-                                        <input type="file" name="facture" id="facture"   class=" form-control"  required>
+                                        <input type="file" name="facture" id="facture"   class=" form-control"  >
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -153,7 +153,7 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <br><br><br><br>
+                                        <br><br><br>
                                         <table class="table  table-bordered">
                                             <thead>
                                                 <tr>
@@ -166,13 +166,13 @@
 
                                             </tbody>
                                         </table>
+                                        <center>
+                                            <button type="submit" class="btn btn-success btn btn-lg "> ENREGISTRER</button>
+                                        </center>
                                     </div>
+
                                 </div>
-                                <div>
-                                    <center>
-                                        <button type="submit" class="btn btn-success btn btn-lg "> ENREGISTRER</button>
-                                    </center>
-                                </div>
+
                             </div>
 
                             </div>
@@ -305,7 +305,9 @@ $("#jsonchauffeur").click(function () {
 </script>
 <script>
     $(document).ready(function () {
+
         $(".addRow").click(function() {
+            //alert('clic');
             //find content of different elements inside a row.
             var nameTxt = $(this).closest('tr').find('.name').text();
             var id = $(this).closest('tr').find('.id').text();
@@ -324,7 +326,7 @@ $("#jsonchauffeur").click(function () {
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
         },
-       "paging": true,
+       "paging": false,
         "lengthChange": true,
         "searching": true,
         "ordering": true,
