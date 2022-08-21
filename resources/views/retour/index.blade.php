@@ -51,6 +51,8 @@
                     </thead>
                     <tbody>
                     @foreach ($retours as $retour)
+                    @if(Auth::user()->role!='administrateur')
+                    @if($retour->sortie->facture->depot->id==Auth::user()->depot_id)
                         <tr>
                             <td>{{ $retour->id }}</td>
                            <td> {{  Carbon\Carbon::parse( $retour->created_at)->format('d-m-Y H:i') }}</td>
@@ -73,6 +75,17 @@
                             </td>  --}}
 
                         </tr>
+                        @endif
+                        @else
+                        <tr>
+                            <td>{{ $retour->id }}</td>
+                           <td> {{  Carbon\Carbon::parse( $retour->created_at)->format('d-m-Y H:i') }}</td>
+                            <td>{{ $retour->sortie->facture->client->nomc }}</td>
+                            <td><a href="{{ route('get.chercher.produit', ['id'=>$retour->sortie->produit->id]) }}">{{ $retour->sortie->produit->nomp }}</a></td>
+                            <td>{{ $retour->quantite }}</td>
+                            <td>{{ $retour->sortie->facture->depot->nomd }}</td>
+                            <td>{{ $retour->sortie->facture->facs }}</td>
+                        @endif
                         @endforeach
 
                     </tbody>

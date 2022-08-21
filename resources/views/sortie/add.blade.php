@@ -160,7 +160,7 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <br><br><br><br>
+                                        <br><br><br>
                                         <table class="table  table-bordered">
                                             <thead>
                                                 <tr>
@@ -173,13 +173,13 @@
 
                                             </tbody>
                                         </table>
+                                        <center>
+                                            <button type="submit" class="btn  btn-success btn btn-lg "> ENREGISTRER</button>
+                                        </center>
                                     </div>
+
                                 </div>
-                                <div>
-                                    <center>
-                                        <button type="submit" class="btn clignote btn-danger btn btn-lg "> ENREGISTRER</button>
-                                    </center>
-                                </div>
+
                             </div>
 
                             </div>
@@ -333,7 +333,7 @@ $("#jsonchauffeur").click(function () {
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
         },
-       "paging": true,
+       "paging": false,
         "lengthChange": true,
         "searching": true,
         "ordering": true,

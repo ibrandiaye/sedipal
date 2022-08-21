@@ -187,7 +187,7 @@
                                 </div>
                                 <div class='modal-footer justify-content-between'>
                                   <button type='button' class='btn btn-default' data-dismiss='modal'>Fermer</button>
-                                  <input type='submit' class='btn btn-success' value="Valider Retour">
+                                  <input type='submit' class='btn btn-success retour' value="Valider Retour">
                                 </div>
                               </div>
                               <!-- /.modal-content -->
@@ -255,7 +255,7 @@
                                 </div>
                                 <div class='modal-footer justify-content-between'>
                                   <button type='button' class='btn btn-default' data-dismiss='modal'>Fermer</button>
-                                  <input type='submit' class='btn btn-success' value="Valider Retour">
+                                  <input type='submit' class='btn btn-success' value="Valider Retour" data-dismiss='modal'>
                                 </div>
                               </div>
                               <!-- /.modal-content -->
@@ -289,6 +289,14 @@
 $(function () {
     //Initialize Select2 Elements
     $('.select2').select2()
+});
+
+$(document).ready(function () {
+
+    $(".retour").click(function() {
+       // alert('sdf')
+      //  $(".retour").prop('disabled', true);
+    });
 });
 </script>
 @endsection

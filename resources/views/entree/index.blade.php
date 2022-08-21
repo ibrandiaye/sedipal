@@ -39,7 +39,7 @@
                 <table id="example1" class="table tables table-bordered table-responsive-md table-striped text-center">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>N°Factue</th>
                             <th>Date</th>
                             <th>Fournisseur</th>
                             <th>Produit</th>
@@ -53,8 +53,10 @@
                     </thead>
                     <tbody>
                     @foreach ($entrees as $entree)
+                    @if(Auth::user()->role!='administrateur')
+                        @if($entree->facturee->depot->id==Auth::user()->depot_id)
                         <tr>
-                            <td>{{ $entree->id }}</td>
+                            <td>{{ $entree->facturee->facs }}</td>
                            <td> {{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:i') }}</td>
                             <td>{{ $entree->facturee->fournisseur->nomf }}</td>
                             <td><a href="{{ route('get.chercher.produit', ['id'=>$entree->produit->id]) }}">{{ $entree->produit->nomp }}</a></td>
@@ -80,6 +82,36 @@
                             </td>
 
                         </tr>
+                        @endif
+                        @else
+                        <tr>
+                            <td>{{ $entree->facturee->facs }}</td>
+                           <td> {{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:i') }}</td>
+                            <td>{{ $entree->facturee->fournisseur->nomf }}</td>
+                            <td><a href="{{ route('get.chercher.produit', ['id'=>$entree->produit->id]) }}">{{ $entree->produit->nomp }}</a></td>
+                            <td>{{ $entree->quantite }}</td>
+                            {{--  <td>{{ $entree->quantite  * $entree->prixu }}</td>  --}}
+                            <td>{{ $entree->facturee->depot->nomd }}</td>
+                            <td>@if($entree->facturee->chauffeur) {{ $entree->facturee->chauffeur->nom }}@endif</td>
+                            <td> @if($entree->facturee->face)
+                                <a href="{{ asset('facture/'.$entree->facturee->face) }}" target="blank">Facture</a>
+                                @endif</td>
+
+                             <td>
+                                @if(Auth::user()->depot_id== $entree->facturee->depot->id)
+
+
+                                <a href="{{ route('entree.edit', $entree->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a> @endif
+                                @if(Auth::user()->role== 'administrateur')  {!! Form::open(['method' => 'DELETE', 'route'=>['entree.destroy', $entree->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
+                                <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                {!! Form::close() !!}@endif
+
+
+
+                            </td>
+
+                        </tr>v
+                        @endif
                         @endforeach
 
                     </tbody>
