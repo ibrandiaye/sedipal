@@ -53,8 +53,9 @@
                                         <input type="number" name="prixu"  value="{{ old('prixu') }}" step='0.01' class="form-control"  >
                                     </div>
                                 </div>
-                                @endif
+                              @else
                                 <input type="hidden" name="prixu"  value="0" step='0.01' class="form-control"  >
+                                @endif
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Unité produit</label>
