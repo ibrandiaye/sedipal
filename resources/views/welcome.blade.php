@@ -106,7 +106,11 @@
                     </thead>
                     <tbody>
                     @foreach ($depot->depotProduits as $depotProduit)
+
                         <tr>
+                         @if(!empty($depot->produit))
+
+
                             <td>{{ $depotProduit->produit->id }}</td>
                             <td><a href="{{ route('get.chercher.produit', ['id'=>$depotProduit->produit->id]) }}">{{ $depotProduit->produit->nomp }}</a></td>
                             <td>{{ $depotProduit->stock }}</td>
@@ -116,7 +120,7 @@
 
 
                             </td>
-
+                            @endif
                         </tr>
                         @endforeach
 
