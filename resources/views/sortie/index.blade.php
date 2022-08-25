@@ -107,7 +107,7 @@
                                 @endforeach</td>
                                 {{--  <td>{{ $sortie->quantite  * $sortie->prixv }}</td>  --}}
                                 <td>{{ $sortie->facture->depot->nomd }}</td>
-                                @if(Auth::user()->role=='administrateur')<td>@if(!emmpty($sortie->produit->prixu)){{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}
+                                @if(Auth::user()->role=='administrateur')<td>@if(!emmpty($sortie->produit)){{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}
 
                                     @endif</td>@endif
                                 <td> @if($sortie->facture->chauffeur)
