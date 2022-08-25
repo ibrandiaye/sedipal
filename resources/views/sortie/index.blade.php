@@ -94,7 +94,9 @@
                             <tr>
                                 <td>{{ $sortie->facture->facs }}</td>
                                 <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:i') }}</td>
-                                <td>{{ $sortie->facture->client->nomc }}</td>
+                                <td>@if(!empty($sortie->facture->client))
+                                    {{ $sortie->facture->client->nomc }}
+                                @endif</td>
                                 <td><a href="{{ route('get.chercher.produit', ['id'=>$sortie->produit->id]) }}"> {{ $sortie->produit->nomp }}</a></td>
                                 <td>{{ $sortie->quantite }}</td>
                                 <td>@foreach ($sortie->retours as $retour)
@@ -129,7 +131,9 @@
                         <tr>
                             <td>{{ $sortie->facture->facs }}</td>
                             <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:i') }}</td>
-                            <td>{{ $sortie->facture->client->nomc }}</td>
+                            <td>@if(!empty($sortie->facture->client))
+
+                            {{ $sortie->facture->client->nomc }}@endif</td>
                             <td><a href="{{ route('get.chercher.produit', ['id'=>$sortie->produit->id]) }}"> {{ $sortie->produit->nomp }}</a></td>
                             <td>{{ $sortie->quantite }}</td>
                             <td>@foreach ($sortie->retours as $retour)
@@ -201,7 +205,7 @@
                         <tr>
                             <td>{{ $sortie->facture->facs }}</td>
                             <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:i') }}</td>
-                            <td>{{ $sortie->facture->client->nomc }}</td>
+                            <td>@if(!empty($sortie->facture->client)){{ $sortie->facture->client->nomc }}@endif</td>
                             <td><a href="{{ route('get.chercher.produit', ['id'=>$sortie->produit->id]) }}"> {{ $sortie->produit->nomp }}</a></td>
                             <td>{{ $sortie->quantite }}</td>
                             <td>@foreach ($sortie->retours as $retour)

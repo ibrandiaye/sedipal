@@ -108,7 +108,7 @@
                     @foreach ($depot->depotProduits as $depotProduit)
 
                         <tr>
-                         @if(!empty($depot->produit))
+                         @if(!empty($depotProduit->produit))
 
 
                             <td>{{ $depotProduit->produit->id }}</td>
