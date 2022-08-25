@@ -179,7 +179,7 @@
                             <div class='modal-dialog'>
                               <div class='modal-content'>
                                 <div class='modal-header'>
-                                  <h6 class='modal-title'> Retour : {{ $sortie->produit->nomp }},  Facture N°{{ $sortie->facture->facs }}</h6>
+                                  <h6 class='modal-title'> Retour :>@if(!empty($sortie->produit)) {{ $sortie->produit->nomp }}@endif,  Facture N°{{ $sortie->facture->facs }}</h6>
                                   <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
                                     <span aria-hidden='true'>&times;</span>
                                   </button>
