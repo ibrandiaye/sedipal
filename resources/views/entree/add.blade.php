@@ -167,7 +167,7 @@
                                             </tbody>
                                         </table>
                                         <center>
-                                            <button type="submit" class="btn btn-success btn btn-lg "> ENREGISTRER</button>
+                                            <button type="submit" id="btnenreg" class="btn btn-success btn btn-lg "> ENREGISTRER</button>
                                         </center>
                                     </div>
 
@@ -305,20 +305,26 @@ $("#jsonchauffeur").click(function () {
 </script>
 <script>
     $(document).ready(function () {
-
+        $("#btnenreg").prop("disabled","true");
         $(".addRow").click(function() {
             //alert('clic');
             //find content of different elements inside a row.
             var nameTxt = $(this).closest('tr').find('.name').text();
             var id = $(this).closest('tr').find('.id').text();
             $(".conteneur").append("<tr> <td><input type='hidden' value="+id+" name='produit_id[]' required>"+nameTxt+"</td>"+
-            "<td><input type='number' name='quantite[]' class='form-control' min='1' required> </td>"+
+            "<td><input type='number' name='quantite[]' class='form-control quant' min='1' required> </td>"+
             "<td><button type='button' class='btn btn-danger remove-tr'><i class='fas fa-trash'></i></button></td>");
             //alert(nameTxt);
+            $("#btnenreg").removeAttr("disabled");
         });
     });
     $(document).on('click', '.remove-tr', function(){
         $(this).parents('tr').remove();
+        var quant = $('.quant').val();
+        if(quant==null)
+            $("#btnenreg").prop("disabled","true");
+        else
+            $("#btnenreg").removeAttr("disabled");
     });
 
 
