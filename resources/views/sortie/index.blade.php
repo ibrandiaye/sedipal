@@ -223,8 +223,9 @@
                         </td>
                             <td>{{ $sortie->quantite }}</td>
                             <td>@foreach ($sortie->retours as $retour)
-                                Quantite : {{ $retour->quantite }},
-                                Montant : {{ $retour->quantite * $sortie->produit->prixu }}
+                                Quantite : {{ $retour->quantite }}
+                                @if(!empty($sortie->produit)) ,
+                                Montant : {{ $retour->quantite * $sortie->produit->prixu }} @endif
                             @endforeach</td>
                             {{--  <td>{{ $sortie->quantite  * $sortie->prixv }}</td>  --}}
                             <td>{{ $sortie->facture->depot->nomd }}</td>
