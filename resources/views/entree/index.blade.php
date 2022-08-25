@@ -61,8 +61,10 @@
                             <td>@if(!empty( $entree->facturee->fournisseur))
 
                              {{ $entree->facturee->fournisseur->nomf }} @endif</td>
-                            <td><a href="{{ route('get.chercher.produit', ['id'=>$entree->produit->id]) }}">{{ $entree->produit->nomp }}</a></td>
-
+                            <td>@if(!empty($entree->produit))
+                                <a href="{{ route('get.chercher.produit', ['id'=>$entree->produit->id]) }}">{{ $entree->produit->nomp }}</a>
+                            @endif
+                                </td>
                             <td>{{ $entree->quantite }}</td>
                             {{--  <td>{{ $entree->quantite  * $entree->prixu }}</td>  --}}
                             <td>{{ $entree->facturee->depot->nomd }}</td>
@@ -91,7 +93,10 @@
                             <td>{{ $entree->facturee->facs }}</td>
                            <td> {{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:i') }}</td>
                             <td>@if(!empty( $entree->facturee->fournisseur)){{ $entree->facturee->fournisseur->nomf }}@endif</td>
-                            <td><a href="{{ route('get.chercher.produit', ['id'=>$entree->produit->id]) }}">{{ $entree->produit->nomp }}</a></td>
+                            <td>@if(!empty($entree->produit))
+                                <a href="{{ route('get.chercher.produit', ['id'=>$entree->produit->id]) }}">{{ $entree->produit->nomp }}</a>
+                            @endif
+                            </td>
                             <td>{{ $entree->quantite }}</td>
                             {{--  <td>{{ $entree->quantite  * $entree->prixu }}</td>  --}}
                             <td>{{ $entree->facturee->depot->nomd }}</td>
