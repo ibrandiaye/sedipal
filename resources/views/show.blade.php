@@ -105,10 +105,21 @@
                     @foreach ($entrees as $entree)
                         <tr>
                             <td>{{  Carbon\Carbon::parse( $entree->created_at)->format('d-m-Y H:m') }}  </td>
-                            <td>{{ $entree->produit->nomp }}</td>
+                            <td>
+                                @if ($entree->produit)
+                                {{ $entree->produit->nomp }}
+                                @endif
+                                </td>
                             <td>{{ $entree->quantite }}</td>
-                            <td>{{ $entree->facturee->fournisseur->nomf }}</td>
-                            <td>{{ $entree->facturee->depot->nomd }}</td>
+                            <td>
+                                @if ($entree->facturee->fournisseur)
+                                {{ $entree->facturee->fournisseur->nomf }}
+                                @endif
+                               </td>
+                            <td>
+                                @if ($entree->facturee->depot)
+                                {{ $entree->facturee->depot->nomd }}
+                                @endif</td>
                         </tr>
                         @endforeach
 
@@ -141,9 +152,17 @@
                         @foreach ($sorties as $sortie)
                             <tr>
                                 <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:m') }}</td>
-                                <td>{{ $sortie->produit->nomp }}</td>
+                                <td>
+                                    @if ($sortie->produit)
+                                    {{ $sortie->produit->nomp }}
+                                    @endif
+                                    </td>
                                 <td>{{ $sortie->quantite }}</td>
-                                <td>{{ $sortie->facture->client->nomc }}</td>
+                                <td>
+                                    @if ($sortie->facture->client)
+                                    {{ $sortie->facture->client->nomc }}
+                                    @endif
+                                    </td>
                                 <td> @foreach ( $sortie->produit->depotProduits as $depotProduit )
                                     @if( $depotProduit->produit_id== $sortie->produit->id and $sortie->facture->depot->id==$depotProduit->depot_id)
                                         {{ $depotProduit->stock }}
