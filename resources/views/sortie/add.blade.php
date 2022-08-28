@@ -66,25 +66,13 @@
                                         </select>
                                     </div>
                                 </div>
-                               {{--   <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Produit</label>
-                                        <select class="form-control select2" id="produit_id" name="produit_id" required="">
-                                            <option value="">Selectionnez</option>
-                                            @foreach ($produits as $produit)
-                                            <option value="{{$produit->id}}">{{$produit->nomp}}</option>
-                                                @endforeach
-
-                                        </select>
-                                    </div>
-                                </div>  --}}
                                 <div class="col-lg-6">
                                         <label>Client</label>
                                         <div class="form-group input-group input-group-sm">
                                         <select class="form-control select2" id="client_id" name="client_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($clients as $client)
-                                            <option value="{{$client->id}}">{{$client->nomc}}</option>
+                                            <option value="{{$client->id}}"  {{old('client_id')==$client->id ? 'selected' : ''}}>{{$client->nomc}} {{ $client->telc }}</option>
                                                 @endforeach
 
                                         </select>
@@ -99,18 +87,6 @@
                                         <input type="text" name="facs" id="facs"  value="{{ old('facs') }}" class="form-control"  required>
                                     </div>
                                 </div>
-                                {{--     <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Prix Unitaire produit</label>
-                                        <input type="number" id="prixv" name="prixv"  value="{{ old('prixv') }}" step='0.01' class="calcul form-control"  >
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Quantité</label>
-                                        <input type="number" name="quantite" id="quantite"  value="{{ old('quantite') }}" step='0.01' class="calcul  form-control"  required>
-                                    </div>
-                                </div>  --}}
                                 <div class="col-lg-6">
                                     <label>Chauffeur</label>
                                     <div class=" form-group input-group input-group-sm">
@@ -118,7 +94,7 @@
                                         <select class="form-control select2" id="chauffeur_id" name="chauffeur_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($chauffeurs as $chauffeur)
-                                            <option value="{{$chauffeur->id}}">{{$chauffeur->nom }}</option>
+                                            <option value="{{$chauffeur->id}}" {{old('chauffeur_id')==$chauffeur->id ? 'selected' : ''}}>{{$chauffeur->nom }}</option>
                                                 @endforeach
 
                                         </select>
@@ -234,7 +210,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>Tel client</label>
+                            <label>compte client</label>
                             <input type="text" name="telc" id="telc"  value="{{ old('telc') }}" class="form-control"  >
                         </div>
                     </div>
@@ -320,7 +296,7 @@ $("#jsonchauffeur").click(function () {
             var nameTxt = $(this).closest('tr').find('.name').text();
             var id = $(this).closest('tr').find('.id').text();
             $(".conteneur").append("<tr> <td><input type='hidden' value="+id+" name='produit_id[]' required>"+nameTxt+"</td>"+
-            "<td><input type='number' name='quantite[]' class='form-control quant' min='1' required> </td>"+
+            "<td><input type='number' name='quantite[]' class='form-control quant' min='1' step='0.1' required> </td>"+
             "<td><button type='button' class='btn btn-danger remove-tr'><i class='fas fa-trash'></i></button></td>");
             $("#btnenreg").removeAttr("disabled");
             //alert(nameTxt);

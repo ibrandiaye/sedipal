@@ -56,6 +56,14 @@ class RetourController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'quantite'=> 'required|integer',
+            'sortie_id'=> 'required|integer',
+
+        ],[
+            'quantite' => 'Quantité Obligatoire',
+            'sortie_id' => 'Sortie Obligatoire',
+        ]);
         $sortie = $this->sortieRepository->getById($request['sortie_id']);
         $facture = $this->factureRepository->getById($sortie->facture_id);
         if($request['quantite'] <= $sortie->quantite){

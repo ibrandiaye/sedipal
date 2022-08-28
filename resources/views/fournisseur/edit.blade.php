@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>Tel fournisseur</label>
+                                        <label>Compte fournisseur</label>
                                         <input type="text" name="telf"  value="{{ $fournisseur->telf }}" class="form-control"  >
                                     </div>
                                 </div>

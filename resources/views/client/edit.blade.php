@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>Tel client</label>
+                                        <label>Numéro Compte</label>
                                         <input type="text" name="telc"  value="{{ $client->telc }}" class="form-control"  >
                                     </div>
                                 </div>

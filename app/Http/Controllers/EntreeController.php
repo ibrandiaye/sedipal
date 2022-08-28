@@ -62,7 +62,8 @@ class EntreeController extends Controller
         $depots = $this->depotRepository->getAll();
         $chauffeurs = $this->chauffeurRepository->getAll();
         $depotProduits = $this->depotProduitRepository->getByProduitAndDepotByDeport(Auth::user()->depot_id);
-        return view('entree.add',compact('produits','fournisseurs','depots','chauffeurs','depotProduits'));
+        $produit_id=null;
+        return view('entree.add',compact('produits','fournisseurs','depots','chauffeurs','depotProduits','produit_id'));
     }
 
     /**
@@ -73,10 +74,34 @@ class EntreeController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'chauffeur_id'=> 'required|integer',
+            'fournisseur_id'=> 'required|integer',
+            'facs'=> 'required|string',
+
+        ],[
+            'chauffeur_id.required' => 'Chauffeur Obligatoire',
+            'fournisseur_id.required' => 'Fournisseur Obligatoire',
+            'facs.required' => 'N°facture Obligatoire Obligatoire',
+        ]);
+
         $request['depot_id']=Auth::user()->depot_id;
         $arrlength = count($request['produit_id']);
         $produits = $request['produit_id'];
         $quantites = $request['quantite'];
+        //control if table quantite contains value null
+        for($x = 0; $x < $arrlength; $x++) {
+            var_dump(is_double($quantites[$x]));
+            if(is_numeric($quantites[$x])==false && is_double($quantites[$x])==false){
+
+                return redirect()->back()->with('error','la quantité doit etre un nombre')->withInput();
+            }
+            if($quantites[$x]==null){
+                return redirect()->back()->with('error','Vous avez oublier de renseigner une quantite')->withInput();
+            }
+
+        }
+        //die();
         if($request->facture){
             $facture = time().'.'.$request->facture->extension();
             $request->facture->move('facture/', $facture);

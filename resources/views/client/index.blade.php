@@ -41,7 +41,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nom du client</th>
-                            <th>Tel du client</th>
+                            <th>Numéro Compte</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

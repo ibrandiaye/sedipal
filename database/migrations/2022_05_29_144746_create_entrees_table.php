@@ -17,7 +17,7 @@ class CreateEntreesTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('produit_id');
-            $table->integer('quantite');
+            $table->double('quantite');
             $table->double('prixu')->nullable();
             $table->foreign('produit_id')
             ->references('id')

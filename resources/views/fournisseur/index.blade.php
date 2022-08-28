@@ -41,7 +41,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nom du fournisseur</th>
-                            <th>Tel du fournisseur</th>
+                            <th>Compte du fournisseur</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

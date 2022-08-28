@@ -75,10 +75,34 @@ class SortieController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'chauffeur_id'=> 'required|integer',
+            'client_id'=> 'required|integer',
+            'facs'=> 'required|string',
+
+        ],[
+            'chauffeur_id.required' => 'Chauffeur Obligatoire',
+            'client_id.required' => 'Fournisseur Obligatoire',
+            'facs.required' => 'N°facture Obligatoire Obligatoire',
+        ]);
+
         $request['depot_id']=Auth::user()->depot_id;
         $arrlength = count($request['produit_id']);
         $produits = $request['produit_id'];
         $quantites = $request['quantite'];
+         //control if table quantite contains value null
+         for($x = 0; $x < $arrlength; $x++) {
+            var_dump(is_double($quantites[$x]));
+            if(is_numeric($quantites[$x])==false && is_double($quantites[$x])==false){
+
+                return redirect()->back()->with('error','la quantité doit etre un nombre')->withInput();
+            }
+            if($quantites[$x]==null){
+                return redirect()->back()->with('error','Vous avez oublier de renseigner une quantite')->withInput();
+            }
+
+        }
+        //die();
         for($x = 0; $x < $arrlength; $x++) {
             $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($produits[$x],$request['depot_id']);
             if($depotProduit->stock < $quantites[$x])

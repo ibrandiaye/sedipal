@@ -61,7 +61,16 @@ class TransfertController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'produit_id'=> 'required|integer',
+            'destinataire_id'=> 'required|integer',
+            'quantite'=> 'required|integer',
 
+        ],[
+            'produit_id.required' => 'Produit Obligatoire',
+            'destinataire_id.required' => 'Destinataire Obligatoire',
+            'quantite.required' => 'Quantite Obligatoire ',
+        ]);
        // $transfert = $this->transfertRepository->getById($id);
        // dd($transfert->quantite);
        $request['depot_id']=Auth::user()->depot_id;

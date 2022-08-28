@@ -25,7 +25,7 @@
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
-        <form action="{{ route('entree.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('entree.store') }}" id="quickForm" method="POST" enctype="multipart/form-data">
             @csrf
              <div class="card border-danger border-0">
                         <div class="card-header bg-success text-center">FORMULAIRE D'ENREGISTREMENT D'UNE ENTREE</div>
@@ -39,6 +39,11 @@
                                         </ul>
                                     </div>
                                 @endif
+                                @if ($message = Session::get('error'))
+                                <div class="alert alert-danger">
+                                    <p>{{ $message }}</p>
+                                </div>
+                            @endif
                                 <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -52,18 +57,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{--  <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Produit</label>
-                                        <select class="form-control select2" id="produit_id" name="produit_id" required="">
-                                            <option value="">Selectionnez</option>
-                                            @foreach ($produits as $produit)
-                                            <option value="{{$produit->id}}">{{$produit->nomp}}</option>
-                                                @endforeach
 
-                                        </select>
-                                    </div>
-                                </div>  --}}
                                 <div class="col-lg-6">
 
                                         <label>Fournisseur</label>
@@ -71,7 +65,7 @@
                                         <select class="form-control select2" id="fournisseur_id" name="fournisseur_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($fournisseurs as $fournisseur)
-                                            <option value="{{$fournisseur->id}}">{{$fournisseur->nomf}}</option>
+                                            <option value="{{$fournisseur->id}}" {{ old('fournisseur_id')== $fournisseur->id? "selected='true'" : ''  }}>{{$fournisseur->nomf}} {{$fournisseur->telf}}</option>
                                                 @endforeach
 
                                         </select>
@@ -86,18 +80,7 @@
                                         <input type="text" name="facs" id="facs"  value="{{ old('facs') }}" class="form-control"  required>
                                     </div>
                                 </div>
-                               {{--   <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Prix Unitaire produit</label>
-                                        <input type="number" id="prixu" name="prixu"  value="{{ old('prixu') }}" step='0.01' class="calcul form-control"  >
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Quantité</label>
-                                        <input type="number" name="quantite" id="quantite"  value="{{ old('quantite') }}" step='0.01' class="calcul  form-control"  required>
-                                    </div>
-                                </div>  --}}
+
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Facture</label>
@@ -111,7 +94,7 @@
                                         <select class="form-control select2" id="chauffeur_id" name="chauffeur_id" required="">
                                             <option value="">Selectionnez</option>
                                             @foreach ($chauffeurs as $chauffeur)
-                                            <option value="{{$chauffeur->id}}">{{$chauffeur->nom }}</option>
+                                            <option value="{{$chauffeur->id}}" {{ old('chauffeur_id')== $chauffeur->id ? "selected='true'" : ''  }}>{{$chauffeur->nom }}</option>
                                                 @endforeach
 
                                         </select>
@@ -226,7 +209,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>Tel fournisseur</label>
+                            <label>compte fournisseur</label>
                             <input type="text" name="telf" id="telf" value="{{ old('telf') }}" class="form-control"  >
                         </div>
                     </div>
@@ -312,7 +295,7 @@ $("#jsonchauffeur").click(function () {
             var nameTxt = $(this).closest('tr').find('.name').text();
             var id = $(this).closest('tr').find('.id').text();
             $(".conteneur").append("<tr> <td><input type='hidden' value="+id+" name='produit_id[]' required>"+nameTxt+"</td>"+
-            "<td><input type='number' name='quantite[]' class='form-control quant' min='1' required> </td>"+
+            "<td> <div class='form-group'><input type='number' step='0.1' name='quantite[]' class='form-control quant' min='1' required> </div></td>"+
             "<td><button type='button' class='btn btn-danger remove-tr'><i class='fas fa-trash'></i></button></td>");
             //alert(nameTxt);
             $("#btnenreg").removeAttr("disabled");
@@ -354,6 +337,43 @@ $("#jsonchauffeur").click(function () {
     });
 
 </script>
+
+<script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+<script type="text/javascript">
+      $(document).ready(function () {
+        $.validator.setDefaults({
+        submitHandler: function () {
+            $(form).submit();
+        }
+      });
+      $('#quickForm').validate({
+        rules: {
+            'quantite[]': {
+            required: true,
+            number: true,
+          },
+        },
+        messages: {
+            'quantite[]': {
+            required: "Quantie obligatoire",
+            number: "Entrez un nombre"
+          },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+          error.addClass('invalid-feedback');
+          element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+          $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+          $(element).removeClass('is-invalid');
+        }
+      });
+    });
+    </script>
 @endsection
 
 

@@ -258,9 +258,10 @@
                             <div class='modal-dialog'>
                               <div class='modal-content'>
                                 <div class='modal-header'>
-                                  <h6 class='modal-title'> Retour :@if(!empty($sortie->produit))
+                                  <h6 class='modal-title'> Retour : {{ $sortie->produit->nomp }}, Facture N°{{ $sortie->facture->facs }}
+                                    {{--   @if(!empty($sortie->produit))
                                     {{ $sortie->produit->nomp }},
-                                  @endif  Facture N°{{ $sortie->facture->facs }}</h6>
+                               @endif   --}} Facture N°{{ $sortie->facture->facs }}  --}}</h6>
                                   <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
                                     <span aria-hidden='true'>&times;</span>
                                   </button>
@@ -270,7 +271,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Quantité</label>
-                                                <input type="number" name="quantite" id="quantite"  value="{{ old('quantite') }}" step='0.01' max="{{ $sortie->quantite }}" class="calcul  form-control"  required>
+                                                <input type="number" name="quantite" id="quantite"  value="{{ old('quantite') }}" step='0.1' max="{{ $sortie->quantite }}" class="calcul  form-control"  required>
                                             </div>
                                         </div>
                                         <input type="hidden" value="{{ $sortie->id }}" name="sortie_id">
