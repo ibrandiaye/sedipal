@@ -76,10 +76,11 @@
                             <th>Date</th>
                             <th>client</th>
                             <th>Produit</th>
-                            <th>Quantite</th>
+                            <th>Quantite commandée</th>
+                            <th>Quantite Livrée</th>
                             <th>retour</th>
                             {{--  <th>Montant</th>  --}}
-                            <th>Depot</th>
+                            <th>dépot</th>
                             @if(Auth::user()->role=='administrateur')<th>Ecart</th>@endif
                             <th>chauffeur</th>
                             <th>Actions</th>
@@ -100,13 +101,25 @@
                                 <td>@if(!empty($sortie->produit))
                                     <a href="{{ route('get.chercher.produit', ['id'=>$sortie->produit->id]) }}"> {{ $sortie->produit->nomp }}</a>
                                 @endif </td>
+                                <td>
+                                    @if(empty($sortie->retours))
+                                    {{ sortie->quantite}}
+                                @else
+                                @foreach ($sortie->retours as $retour)
+                                    Quantite : {{ $retour->quantite + $sortie->quantite}}
+                                @endforeach
+                                @endif
+                                </td>
                                 <td>{{ $sortie->quantite }}</td>
                                 <td>@foreach ($sortie->retours as $retour)
                                     Quantite : {{ $retour->quantite }},
                                     Montant : {{ $retour->quantite * $sortie->produit->prixu }}
                                 @endforeach</td>
                                 {{--  <td>{{ $sortie->quantite  * $sortie->prixv }}</td>  --}}
-                                <td>{{ $sortie->facture->depot->nomd }}</td>
+                                <td>
+                                    {{ $sortie->nomd }}
+
+                                </td>
                                 @if(Auth::user()->role=='administrateur')<td>@if(!emmpty($sortie->produit)){{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}
 
                                     @endif</td>@endif
@@ -141,6 +154,20 @@
                             <td>@if(!empty($sortie->produit))
                                 <a href="{{ route('get.chercher.produit', ['id'=>$sortie->produit->id]) }}"> {{ $sortie->produit->nomp }}</a>
                             @endif </td>
+                            <td>
+                                @php
+                                $quant = 0;
+                                foreach ($sortie->retours as $retour){
+                                    $quant = $retour->quantite + $quant;
+                                }
+                                $quant = $quant + $sortie->quantite;
+                                if($quant > 0)
+                                    echo $quant;
+                                else
+                                    echo $sortie->quantite;
+                                @endphp
+
+                            </td>
                             <td>{{ $sortie->quantite }}</td>
                             <td>@foreach ($sortie->retours as $retour)
                                 Quantite : {{ $retour->quantite }},

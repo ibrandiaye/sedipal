@@ -46,7 +46,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Compte fournisseur</label>
-                                        <input type="text" name="telf"  value="{{ old('telf')!=null ? old('telf') : '411'}}" class="form-control"  >
+                                        <input type="text" name="telf"  value="{{ old('telf')}}" class="form-control"  >
                                     </div>
                                 </div>
                                 <div>

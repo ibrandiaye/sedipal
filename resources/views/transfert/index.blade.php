@@ -70,7 +70,7 @@
                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                 {!! Form::close() !!}@endif
                                 @if(Auth::user()->depot_id== $transfert->destinataire_id &&  $transfert->valide==0)
-                                <a class="btn btn-success" href="{{ route('valider.transfert', ['id'=>$transfert->id]) }}"><i class="fas fa-archive"></i></a>
+                                <a class="btn btn-success" href="{{ route('valider.transfert', ['id'=>$transfert->id]) }}">Valider le transfert</i></a>
                                   @endif
 
 
