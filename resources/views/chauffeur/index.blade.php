@@ -51,9 +51,9 @@
                             <td>{{ $chauffeur->nom }}</td>
                              <td>
                                 <a href="{{ route('chauffeur.edit', $chauffeur->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>
-                                {!! Form::open(['method' => 'DELETE', 'route'=>['chauffeur.destroy', $chauffeur->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
+                              {{--    {!! Form::open(['method' => 'DELETE', 'route'=>['chauffeur.destroy', $chauffeur->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                                {!! Form::close() !!}
+                                {!! Form::close() !!} --}}
 
 
 
