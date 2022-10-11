@@ -17,7 +17,7 @@ class CreateSortiesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('produit_id');
 
-            $table->integer('quantite');
+            $table->double('quantite');
             $table->double('prixv');
 
            // $table->integer('stock');

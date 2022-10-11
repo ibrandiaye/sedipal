@@ -111,7 +111,7 @@
 
                                             <tr>
                                                 <th>#</th>
-                                                <th>Plat</th>
+                                                <th>Article</th>
                                                 <th>stock</th>
                                                 <th>Action</th>
 
@@ -140,7 +140,7 @@
                                         <table class="table  table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Produit</th>
+                                                    <th>Article</th>
                                                     <th>Quantite</th>
                                                     <th>action</th>
                                                 </tr>
@@ -296,7 +296,7 @@ $("#jsonchauffeur").click(function () {
             var nameTxt = $(this).closest('tr').find('.name').text();
             var id = $(this).closest('tr').find('.id').text();
             $(".conteneur").append("<tr> <td><input type='hidden' value="+id+" name='produit_id[]' required>"+nameTxt+"</td>"+
-            "<td><input type='number' name='quantite[]' class='form-control quant' min='1' step='0.1' required> </td>"+
+            "<td><input type='number' name='quantite[]' class='form-control quant'  step='0.1' required> </td>"+
             "<td><button type='button' class='btn btn-danger remove-tr'><i class='fas fa-trash'></i></button></td>");
             $("#btnenreg").removeAttr("disabled");
             //alert(nameTxt);

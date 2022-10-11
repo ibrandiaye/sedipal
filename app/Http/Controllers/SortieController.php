@@ -216,4 +216,8 @@ class SortieController extends Controller
         $clients = $this->clientRepository->getAll();
         return view('sortie.index',compact('sorties','client_id','clients'));
     }
+    public function getByFacture($facture_id){
+        $sorties = $this->sortieRepository->getByFacture($facture_id);
+        return view('retour.add',compact('sorties'));
+    }
 }

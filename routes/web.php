@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/','DashboardController@home')->name('home');
 Route::get('/detail/produit/{produit_id}','DashboardController@getProduitDepotById')->name('detail.produit');
 Route::get('/undepot/{id}','DashboardController@getByDepot')->name('un.depot');
+Route::get('/facture/sortie','FactureController@fac')->name('facture.fac');
 Route::resource('fournisseur',FournisseurController::class);
 Route::resource('produit',ProduitController::class);
 Route::resource('depot',DepotController::class);
@@ -46,3 +47,11 @@ Route::get('/valider/transfert/{id}','TransfertController@valide')->name('valide
 Route::get('/non-valider/transfert','TransfertController@allTansfertForMyDepotNoValidate')->name('nonvalider.transfert');
 
 Route::get('/chercher/produit/{id}', 'DashboardController@chercherProduitGet')->name('get.chercher.produit');
+
+Route::get('/get/by/facture/{facture_id}', 'SortieController@getByFacture')->name('get.by.facture');
+
+Route::post('/storeRetourFacture', 'RetourController@storeRetourFacture')->name('facture.retour.store');
+
+Route::get('/facture/{facture_id}', 'FactureController@getById')->name('facture.show');
+Route::get('/impression/facture/{facture_id}', 'FactureController@impression')->name('facture.impression');
+

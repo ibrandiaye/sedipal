@@ -90,6 +90,61 @@
                     @foreach ($sorties as $sortie)
                     @if(Auth::user()->role!='administrateur')
                         @if($sortie->facture->depot->id==Auth::user()->depot_id)
+                        @if($client_id > 0)
+                            @if($sortie->facture->client_id==$client_id)
+                            <tr>
+                                <td>{{ $sortie->facture->facs }}</td>
+                                <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:i') }}</td>
+                                <td>@if(!empty($sortie->facture->client))
+                                    {{ $sortie->facture->client->nomc }}
+                                @endif</td>
+                                <td>@if(!empty($sortie->produit))
+                                    <a href="{{ route('get.chercher.produit', ['id'=>$sortie->produit->id]) }}"> {{ $sortie->produit->nomp }}</a>
+                                @endif </td>
+                                <td>
+                                    @if(empty($sortie->retours))
+                                    {{ $sortie->quantite}}
+                                @else
+                                @foreach ($sortie->retours as $retour)
+                                    Quantite : {{ $retour->quantite + $sortie->quantite}}
+                                @endforeach
+                                @endif
+                                </td>
+                                <td>{{ $sortie->quantite }}</td>
+                                <td>@foreach ($sortie->retours as $retour)
+                                    Quantite : {{ $retour->quantite }},
+                                    Montant : {{ $retour->quantite * $sortie->produit->prixu }}
+                                @endforeach</td>
+                                {{--  <td>{{ $sortie->quantite  * $sortie->prixv }}</td>  --}}
+                                <td>
+                                    {{ $sortie->nomd }}
+
+                                </td>
+                                @if(Auth::user()->role=='administrateur')<td>@if(!emmpty($sortie->produit)){{( $sortie->quantite  * $sortie->prixv) - ($sortie->quantite  * $sortie->produit->prixu) }}
+
+                                    @endif</td>@endif
+                                <td> @if($sortie->facture->chauffeur)
+                                    {{ $sortie->facture->chauffeur->nom }}
+                                @endif</td>
+                                 <td>
+                                    @if(Auth::user()->depot_id== $sortie->facture->depot->id)
+                                    <a href="{{ route('sortie.edit', $sortie->id) }}" role="button" class="btn btn-info"><i class="fas fa-edit"></i></a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default{{ $sortie->id }}">
+                                        Retour
+                                      </button>
+                                    @endif
+                                    @if(Auth::user()->role== 'administrateur') {!! Form::open(['method' => 'DELETE', 'route'=>['sortie.destroy', $sortie->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
+                                    <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                    {!! Form::close() !!}@endif
+
+
+
+                                </td>
+
+                            </tr>
+
+                            @endif
+                        @else
                         <tr>
                             <td>{{ $sortie->facture->facs }}</td>
                             <td>{{  Carbon\Carbon::parse( $sortie->created_at)->format('d-m-Y H:i') }}</td>
@@ -145,6 +200,10 @@
                             </td>
 
                         </tr>
+
+
+                        @endif
+
                         <div class='modal fade' id='modal-default{{ $sortie->id }}'>
                             <form action="{{ route('retour.store') }}" method="POST">
                             @csrf
@@ -233,7 +292,43 @@
                             </td>
 
                         </tr>
+                        <div class='modal fade' id='modal-default{{ $sortie->id }}'>
+                            <form action="{{ route('retour.store') }}" method="POST">
+                            @csrf
 
+                            <div class='modal-dialog'>
+                              <div class='modal-content'>
+                                <div class='modal-header'>
+                                  <h6 class='modal-title'> Retour : {{ $sortie->produit->nomp }}, Facture N°{{ $sortie->facture->facs }}
+                                    {{--   @if(!empty($sortie->produit))
+                                    {{ $sortie->produit->nomp }},
+                               @endif   --}} Facture N°{{ $sortie->facture->facs }}  --}}</h6>
+                                  <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                    <span aria-hidden='true'>&times;</span>
+                                  </button>
+                                </div>
+                                <div class='modal-body'>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Quantité</label>
+                                                <input type="number" name="quantite" id="quantite"  value="{{ old('quantite') }}" step='0.1' max="{{ $sortie->quantite }}" class="calcul  form-control"  required>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="{{ $sortie->id }}" name="sortie_id">
+
+                                </div>
+                                <div class='modal-footer justify-content-between'>
+                                  <button type='button' class='btn btn-default' data-dismiss='modal'>Fermer</button>
+                                  <input type='submit' class='btn btn-success' value="Valider Retour" data-dismiss='modal'>
+                                </div>
+                              </div>
+                              <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                          </div>
+                        </form>
+                        </div>
 
                         @endif
                           <!-- /.modal -->

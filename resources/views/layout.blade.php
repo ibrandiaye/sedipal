@@ -319,6 +319,17 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('facture.fac') }}" class="nav-link">
+
+                            <i class='fas fa-exchange-alt'></i>
+                            <p>
+                            Facture
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+
+                    </li>
                     @if(Auth::user()->role=='administrateur')
                     <li class="nav-item">
                         <a href="" class="nav-link">

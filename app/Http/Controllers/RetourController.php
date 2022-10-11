@@ -7,6 +7,7 @@ use App\Repositories\DepotProduitRepository;
 use App\Repositories\FactureRepository;
 use App\Repositories\RetourRepository;
 use App\Repositories\SortieRepository;
+use App\Retour;
 use App\Sortie;
 use Illuminate\Http\Request;
 
@@ -57,7 +58,7 @@ class RetourController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'quantite'=> 'required|integer',
+            'quantite'=> 'required|regex:/^\d+(\.\d{1,2})?$/',
             'sortie_id'=> 'required|integer',
 
         ],[
@@ -148,5 +149,37 @@ class RetourController extends Controller
     {
         $this->retourRepository->destroy($id);
         return redirect('retour');
+    }
+    public function storeRetourFacture(Request $request){
+        $arrlength = count($request['quantite']);
+        $sorties = $request['sortie_id'];
+        $quantites = $request['quantite'];
+        for($x = 0; $x < $arrlength; $x++) {
+            if($quantites [$x] >0){
+                $sortie = $this->sortieRepository->getById($sorties[$x]);
+                if($quantites[$x] >  $sortie->quantite){
+                    return redirect()->back()->with('error','la quantité '.$sortie->produit->nombre.' de retour est supérieur à la quantité ');
+                }
+
+
+            }
+        }
+        for($x = 0; $x < $arrlength; $x++) {
+            if($quantites [$x] >0){
+                $sortie = $this->sortieRepository->getById($sorties[$x]);
+                $diff = $sortie->quantite - $quantites[$x];
+                Sortie::find($sortie->id)->update(['quantite'=>$diff]);
+                $depotProduit = $this->depotProduitRepository->getByProduitAndDepot($sortie->produit_id,$sortie->facture->depot_id);
+                $depotProduit->stock = $depotProduit->stock  + $quantites[$x];
+                DepotProduit::find($depotProduit->id)->update(['stock' =>  $depotProduit->stock]);
+                //$retour = $this->retourRepository->store($request->all());
+                $retour = new Retour();
+                $retour->sortie_id = $sortie->id;
+                $retour->quantite = $quantites[$x];
+                $retour->save();
+            }
+        }
+        return redirect()->route('facture.fac');
+
     }
 }

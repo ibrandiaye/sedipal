@@ -29,4 +29,9 @@ class SortieRepository extends RessourceRepository{
         ->whereDate('created_at',$date)
         ->get();
     }
+    public function getByFacture($facture_id){
+        return Sortie::with(['produit','facture','facture.client'])
+        ->where('facture_id',$facture_id)
+        ->get();
+    }
 }

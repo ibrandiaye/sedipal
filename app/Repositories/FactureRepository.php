@@ -9,4 +9,11 @@ class FactureRepository extends RessourceRepository{
     {
         $this->model = $facture;
     }
+
+    public function getFactureByDepot($depot_id){
+        return Facture::with(['client','depot','chauffeur'])
+        ->where('depot_id',$depot_id)
+        ->orderBy('id','desc')
+        ->get();
+    }
 }
